@@ -25,6 +25,14 @@ const modules = [
 
 const professions = ["ENGINEER", "LAWYER", "DOCTOR", "DESIGNER", "TEACHER", "RESEARCHER", "FOUNDER", "WRITER"];
 
+const timeline: Array<[string, string, string]> = [
+  ["2017", "Education", "BSc. Computer Engineering"],
+  ["2019", "First role", "Systems Engineer · Lagos"],
+  ["2022", "Breakthrough project", "Reduced processing time by 42%"],
+  ["2024", "Professional credential", "Cloud Architecture · Certificate attached"],
+  ["NOW", "Independent practice", "Consulting across West Africa"],
+];
+
 function BrandMark() {
   return (
     <a href="#top" className="flex items-center gap-2.5" aria-label="PROVEN home">
@@ -88,7 +96,7 @@ function Index() {
   return (
     <main id="top" className="overflow-x-hidden bg-background text-foreground">
       <header className="border-b-2 border-foreground">
-        <div className="mx-auto grid max-w-7xl grid-cols-[minmax(0,1fr)_auto] items-center gap-4 px-4 py-4 sm:px-8 lg:px-12">
+        <div className="mx-auto grid max-w-7xl grid-cols-[minmax(0,1fr)_auto] items-center gap-4 px-4 py-4 sm:px-8 md:grid-cols-[auto_minmax(0,1fr)_auto] lg:px-12">
           <BrandMark />
           <nav className="hidden items-center gap-8 text-xs font-bold md:flex" aria-label="Main navigation">
             <a href="#showcase" className="transition-colors hover:text-signal">What you can show</a>
@@ -171,7 +179,7 @@ function Index() {
             <p className="mt-5 max-w-md leading-relaxed text-muted-foreground">Connect every milestone to the document, result, link, or recommendation behind it.</p>
           </div>
           <div className="border-l-2 border-foreground pl-5 sm:pl-9">
-            {[["2017", "Education", "BSc. Computer Engineering"], ["2019", "First role", "Systems Engineer · Lagos"], ["2022", "Breakthrough project", "Reduced processing time by 42%"], ["2024", "Professional credential", "Cloud Architecture · Certificate attached"], ["NOW", "Independent practice", "Consulting across West Africa"]].map(([year, label, title], index) => (
+            {timeline.map(([year, label, title], index) => (
               <div key={year} className="relative border-b border-border py-7 first:pt-0">
                 <span className={`absolute -left-[1.8rem] top-8 size-3 border-2 border-foreground sm:-left-[2.65rem] ${index === 4 ? "bg-signal" : "bg-background"}`} />
                 <p className="text-[10px] font-bold text-signal">{year} · {label.toUpperCase()}</p>
