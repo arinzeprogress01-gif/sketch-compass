@@ -74,9 +74,9 @@ function DashboardPreview() {
       <div className="absolute inset-x-0 bottom-0 top-8 overflow-hidden rounded-2xl border border-border bg-card shadow-premium sm:left-3 sm:right-2">
         <aside className="absolute inset-y-0 left-0 hidden w-[6.4rem] bg-primary p-3 text-primary-foreground sm:block">
           <div className="mb-8 flex items-center gap-1.5 font-display text-[10px] font-extrabold"><span className="grid size-5 place-items-center rounded-md bg-accent">✓</span> PROVEN</div>
-          {[[Sparkles,"Overview"],[UserRound,"Profile"],[BriefcaseBusiness,"Experience"],[GraduationCap,"Education"],[FolderKanban,"Projects"],[FileBadge,"Credentials"]].map(([Icon, label], index) => (
-            <div key={label as string} className={`mb-1 flex items-center gap-2 rounded-md px-2 py-2 text-[7px] ${index === 0 ? "bg-accent" : "text-primary-foreground/65"}`}>
-              <Icon className="size-2.5" /> {label as string}
+          {([[Sparkles,"Overview"],[UserRound,"Profile"],[BriefcaseBusiness,"Experience"],[GraduationCap,"Education"],[FolderKanban,"Projects"],[FileBadge,"Credentials"]] as const).map(([Icon, label], index) => (
+            <div key={label} className={`mb-1 flex items-center gap-2 rounded-md px-2 py-2 text-[7px] ${index === 0 ? "bg-accent" : "text-primary-foreground/65"}`}>
+              <Icon className="size-2.5" /> {label}
             </div>
           ))}
         </aside>
@@ -163,7 +163,7 @@ function Index() {
             <h1 className="mt-6 max-w-2xl font-display text-[clamp(3.15rem,5.2vw,5.25rem)] font-bold leading-[1.03]">Your complete professional story. <span className="text-accent">All in one place.</span></h1>
             <p className="mt-6 max-w-xl text-base leading-8 text-muted-foreground sm:text-lg">Build a credible professional identity with your experience, education, credentials, work, achievements, and proof.</p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row"><Button asChild size="lg" className="h-13 rounded-full px-7 shadow-accent"><a href="#start">Create your portfolio <ArrowRight /></a></Button><Button asChild size="lg" variant="outline" className="h-13 rounded-full px-7 shadow-none"><a href="#example">Explore an example</a></Button></div>
-            <div className="mt-9 flex items-center gap-4"><div className="flex -space-x-2">{[["AO","accent"],["DK","warm"],["SM","ink"],["JL","accent"]].map(([name,tone]) => <span key={name} className="ring-2 ring-background"><ProfileAvatar initials={name} tone={tone as "accent" | "warm" | "ink"} /></span>)}</div><p className="text-xs leading-5 text-muted-foreground"><b className="text-foreground">Made for every field</b><br/>One profile. Every chapter.</p></div>
+            <div className="mt-9 flex items-center gap-4"><div className="flex -space-x-2">{([['AO','accent'],['DK','warm'],['SM','ink'],['JL','accent']] as const).map(([name,tone]) => <span key={name} className="ring-2 ring-background"><ProfileAvatar initials={name} tone={tone} /></span>)}</div><p className="text-xs leading-5 text-muted-foreground"><b className="text-foreground">Made for every field</b><br/>One profile. Every chapter.</p></div>
           </div>
           <div id="example" className="relative"><DashboardPreview /></div>
         </div>
