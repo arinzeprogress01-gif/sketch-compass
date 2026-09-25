@@ -1,12 +1,32 @@
 import { createFileRoute } from "@tanstack/react-router";
+import {
+  ArrowRight,
+  Award,
+  BookOpen,
+  BriefcaseBusiness,
+  Check,
+  ChevronRight,
+  Code2,
+  FileBadge,
+  FlaskConical,
+  FolderKanban,
+  GraduationCap,
+  Menu,
+  Scale,
+  Settings2,
+  ShieldCheck,
+  Sparkles,
+  UserRound,
+} from "lucide-react";
+import { buttonVariants } from "@/components/ui/button";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "PROVEN — Your career, backed by evidence" },
-      { name: "description", content: "Build a complete professional portfolio for your experience, education, credentials, projects, achievements, and proof." },
-      { property: "og:title", content: "PROVEN — Your career, backed by evidence" },
-      { property: "og:description", content: "A universal professional portfolio that brings your whole career together in one credible place." },
+      { title: "PROVEN — Your complete professional story" },
+      { name: "description", content: "Build one credible professional portfolio for your experience, work, credentials, achievements, and evidence." },
+      { property: "og:title", content: "PROVEN — Your complete professional story" },
+      { property: "og:description", content: "Your career is more than a CV. Bring every chapter and the proof behind it into one beautiful professional identity." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -14,195 +34,166 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
-const modules = [
-  ["01", "Experience", "Roles, impact, and outcomes"],
-  ["02", "Education", "Degrees, research, and learning"],
-  ["03", "Projects & work", "What you made and why it matters"],
-  ["04", "Credentials", "Licenses and verified certificates"],
-  ["05", "Publications", "Books, papers, articles, and reports"],
-  ["06", "Awards", "Recognition with supporting proof"],
-];
+const professions = [
+  [Code2, "Developer"],
+  [Scale, "Lawyer"],
+  [Settings2, "Engineer"],
+  [BookOpen, "Author"],
+  [GraduationCap, "Teacher"],
+  [FlaskConical, "Researcher"],
+] as const;
 
-const professions = ["ENGINEER", "LAWYER", "DOCTOR", "DESIGNER", "TEACHER", "RESEARCHER", "FOUNDER", "WRITER"];
+const featureCards = [
+  [BriefcaseBusiness, "Experience", "Show your work history, roles, responsibilities, and meaningful outcomes."],
+  [ShieldCheck, "Credentials", "Display certifications, licenses, qualifications, and the proof behind them."],
+  [FolderKanban, "Projects", "Present your work, case studies, research, and real-world impact."],
+  [GraduationCap, "Education", "Share your academic journey, learning milestones, and specialist training."],
+  [Award, "Achievements", "Highlight awards, recognition, publications, and notable accomplishments."],
+  [Settings2, "Customisable", "Choose the sections that fit your field and arrange your story your way."],
+] as const;
 
-const timeline: Array<[string, string, string]> = [
-  ["2017", "Education", "BSc. Computer Engineering"],
-  ["2019", "First role", "Systems Engineer · Lagos"],
-  ["2022", "Breakthrough project", "Reduced processing time by 42%"],
-  ["2024", "Professional credential", "Cloud Architecture · Certificate attached"],
-  ["NOW", "Independent practice", "Consulting across West Africa"],
-];
-
-function BrandMark() {
+function BrandMark({ inverse = false }: { inverse?: boolean }) {
   return (
-    <a href="#top" className="flex items-center gap-2.5" aria-label="PROVEN home">
-      <span className="grid size-8 place-items-center bg-foreground">
-        <span className="size-3.5 rounded-full border-2 border-background" />
+    <a href="#top" className="group flex items-center gap-2.5" aria-label="PROVEN home">
+      <span className={`grid size-8 place-items-center rounded-lg ${inverse ? "bg-background text-foreground" : "bg-primary text-primary-foreground"}`}>
+        <Check className="size-4 stroke-[3] transition-transform group-hover:scale-110" />
       </span>
-      <span className="font-display text-sm font-extrabold">PROVEN</span>
+      <span className="font-display text-base font-extrabold">PROVEN</span>
     </a>
   );
 }
 
-function PortfolioPreview() {
+function ProfileAvatar({ initials, tone = "accent" }: { initials: string; tone?: "accent" | "warm" | "ink" }) {
+  const toneClass = tone === "warm" ? "bg-highlight" : tone === "ink" ? "bg-primary text-primary-foreground" : "bg-accent text-accent-foreground";
+  return <span className={`grid shrink-0 place-items-center rounded-full font-display font-bold ${toneClass}`}>{initials}</span>;
+}
+
+function DashboardPreview() {
   return (
-    <div className="relative mx-auto w-full max-w-[34rem] pt-8 lg:pt-0">
-      <div className="absolute -right-2 top-0 z-10 bg-highlight px-4 py-3 font-display text-xs font-bold uppercase sm:right-8 lg:-right-6 lg:top-10">Public profile · live</div>
-      <article className="border-2 border-foreground bg-background shadow-[10px_10px_0_var(--foreground)]">
-        <div className="flex items-center justify-between border-b-2 border-foreground px-4 py-3">
-          <span className="font-display text-xs font-bold">proven.me/amara</span>
-          <span className="text-xs font-bold text-signal">● AVAILABLE</span>
-        </div>
-        <div className="p-5 sm:p-7">
-          <div className="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-4">
-            <div className="min-w-0">
-              <p className="mb-2 text-[10px] font-bold uppercase text-muted-foreground">Product designer · Researcher</p>
-              <h2 className="font-display text-3xl font-bold leading-tight sm:text-4xl">Amara Okafor</h2>
-              <p className="mt-2 max-w-sm text-sm leading-relaxed text-muted-foreground">I turn complex public services into clear, inclusive digital experiences.</p>
+    <div className="relative mx-auto h-[25.5rem] w-full max-w-[39rem] sm:h-[29rem] lg:translate-x-4">
+      <div className="absolute inset-x-0 bottom-0 top-8 overflow-hidden rounded-2xl border border-border bg-card shadow-premium sm:left-3 sm:right-2">
+        <aside className="absolute inset-y-0 left-0 hidden w-[6.4rem] bg-primary p-3 text-primary-foreground sm:block">
+          <div className="mb-8 flex items-center gap-1.5 font-display text-[10px] font-extrabold"><span className="grid size-5 place-items-center rounded-md bg-accent">✓</span> PROVEN</div>
+          {([[Sparkles,"Overview"],[UserRound,"Profile"],[BriefcaseBusiness,"Experience"],[GraduationCap,"Education"],[FolderKanban,"Projects"],[FileBadge,"Credentials"]] as const).map(([Icon, label], index) => (
+            <div key={label} className={`mb-1 flex items-center gap-2 rounded-md px-2 py-2 text-[7px] ${index === 0 ? "bg-accent" : "text-primary-foreground/65"}`}>
+              <Icon className="size-2.5" /> {label}
             </div>
-            <div className="grid size-14 shrink-0 place-items-center bg-signal font-display text-xl font-bold text-accent-foreground sm:size-20">AO</div>
+          ))}
+        </aside>
+        <div className="h-full p-4 sm:ml-[6.4rem] sm:p-5">
+          <div className="flex items-start justify-between border-b border-border pb-4">
+            <div className="flex gap-3">
+              <ProfileAvatar initials="AO" />
+              <div><p className="font-display text-sm font-bold">Amara Okafor</p><p className="text-[8px] text-muted-foreground">Product Designer · Researcher</p><p className="mt-1 text-[7px] text-accent">Lagos, Nigeria · Available</p></div>
+            </div>
+            <span className="rounded-full bg-accent-soft px-2.5 py-1 text-[7px] font-bold text-accent">PUBLIC</span>
           </div>
-          <div className="my-6 h-px bg-border" />
-          <div className="grid grid-cols-2 gap-px bg-foreground">
-            <div className="bg-background p-4">
-              <p className="text-[10px] font-bold uppercase text-muted-foreground">Current</p>
-              <p className="mt-2 font-display text-sm font-semibold">Lead Product Designer</p>
-              <p className="mt-1 text-xs text-muted-foreground">Civic Lab · 2022—Now</p>
+          <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-[1.08fr_.92fr]">
+            <div className="rounded-xl border border-border bg-background p-3 shadow-soft">
+              <div className="flex items-center justify-between"><p className="text-[8px] font-bold">Experience</p><span className="text-[7px] text-accent">View all</span></div>
+              <div className="relative mt-3 space-y-3 pl-4 before:absolute before:bottom-1 before:left-[3px] before:top-1 before:w-px before:bg-accent-soft">
+                {["Lead Product Designer", "Senior Product Designer", "UX Researcher"].map((role, index) => <div key={role} className="relative before:absolute before:-left-4 before:top-1 before:size-2 before:rounded-full before:bg-accent"><p className="text-[8px] font-bold">{role}</p><p className="mt-0.5 text-[7px] text-muted-foreground">{index === 0 ? "Civic Lab · 2022—Now" : index === 1 ? "Kora Systems · 2020—2022" : "Northstar · 2018—2020"}</p></div>)}
+              </div>
             </div>
-            <div className="bg-highlight p-4">
-              <p className="text-[10px] font-bold uppercase">Outcome</p>
-              <p className="mt-2 font-display text-2xl font-bold">+38%</p>
-              <p className="mt-1 text-xs">Service completion</p>
+            <div className="rounded-xl border border-border bg-background p-3 shadow-soft">
+              <div className="flex items-center justify-between"><p className="text-[8px] font-bold">Featured work</p><span className="text-[7px] text-accent">3 projects</span></div>
+              <div className="mt-3 grid grid-cols-[4.5rem_1fr] gap-2">
+                <div className="grid h-16 place-items-center rounded-lg bg-primary text-primary-foreground"><FolderKanban className="size-5 text-accent" /></div>
+                <div><p className="text-[8px] font-bold">Civic Access</p><p className="mt-1 text-[7px] leading-relaxed text-muted-foreground">Making public services easier to complete.</p><p className="mt-2 text-[7px] font-bold text-accent">CASE STUDY →</p></div>
+              </div>
             </div>
           </div>
-          <div className="mt-5">
-            <div className="flex items-center justify-between">
-              <p className="font-display text-sm font-bold">Attached evidence</p>
-              <span className="text-[10px] font-bold uppercase text-signal">3 items</span>
-            </div>
-            <div className="mt-3 grid gap-2 sm:grid-cols-3">
-              {["CASE STUDY ↗", "RESEARCH PDF ↗", "RECOMMENDATION ↗"].map((item) => (
-                <div key={item} className="border border-border px-3 py-3 text-[10px] font-bold">{item}</div>
-              ))}
-            </div>
+          <div className="mt-3 grid grid-cols-3 gap-2">
+            {["12 projects", "8 credentials", "24 evidence files"].map((stat) => <div key={stat} className="rounded-lg bg-subtle px-2 py-3 text-center text-[7px] font-bold">{stat}</div>)}
           </div>
         </div>
-      </article>
+      </div>
+      <div className="absolute right-0 top-0 w-40 rounded-xl border border-border bg-card p-3 shadow-float sm:w-48">
+        <p className="text-[7px] font-bold text-muted-foreground">VERIFIED CREDENTIAL</p>
+        <div className="mt-2 flex gap-2"><span className="grid size-8 place-items-center rounded-lg bg-accent-soft text-accent"><ShieldCheck className="size-4" /></span><div><p className="text-[8px] font-bold">Service Design</p><p className="mt-0.5 text-[7px] text-muted-foreground">Credential attached</p></div></div>
+      </div>
+      <div className="absolute -bottom-4 left-2 rounded-xl border border-border bg-card px-4 py-3 shadow-float sm:left-[4.8rem]">
+        <p className="text-[7px] text-muted-foreground">Portfolio strength</p><p className="mt-1 font-display text-lg font-bold">92% <span className="text-[7px] font-medium text-accent">Excellent</span></p>
+      </div>
+    </div>
+  );
+}
+
+function MiniProfileShowcase() {
+  return (
+    <div className="relative mx-auto h-[23rem] w-full max-w-[36rem]">
+      <div className="absolute left-0 top-14 w-[44%] -rotate-3 rounded-2xl bg-primary p-4 text-primary-foreground shadow-premium">
+        <div className="mb-20 h-16 rounded-lg bg-primary-foreground/10" />
+        <p className="text-[9px] font-bold">Creative work.</p><p className="mt-1 text-[8px] text-primary-foreground/55">Ideas made visible.</p>
+      </div>
+      <div className="absolute right-0 top-12 w-[43%] rotate-3 rounded-2xl border border-border bg-card p-4 shadow-premium">
+        <div className="grid h-20 place-items-center rounded-lg bg-accent-soft"><ShieldCheck className="size-8 text-accent" /></div>
+        <p className="mt-8 text-[9px] font-bold">Verified expertise.</p><p className="mt-1 text-[8px] text-muted-foreground">Proof that travels.</p>
+      </div>
+      <div className="absolute left-1/2 top-0 z-10 w-[54%] -translate-x-1/2 rounded-2xl border border-border bg-card p-5 shadow-float">
+        <ProfileAvatar initials="DK" tone="warm" />
+        <h3 className="mt-3 font-display text-lg font-bold">Daniel Kalu</h3><p className="text-[8px] text-muted-foreground">Structural Engineer</p>
+        <div className="my-4 h-px bg-border" />
+        <p className="text-[8px] leading-relaxed text-muted-foreground">Designing safer, smarter structures for growing cities.</p>
+        <div className="mt-5 grid grid-cols-3 gap-2 text-center"><div><b className="block text-sm">8+</b><span className="text-[6px] text-muted-foreground">YEARS</span></div><div><b className="block text-sm">12</b><span className="text-[6px] text-muted-foreground">PROJECTS</span></div><div><b className="block text-sm">5</b><span className="text-[6px] text-muted-foreground">CREDENTIALS</span></div></div>
+      </div>
     </div>
   );
 }
 
 function Index() {
   return (
-    <main id="top" className="overflow-x-hidden bg-background text-foreground">
-      <header className="border-b-2 border-foreground">
-        <div className="mx-auto grid max-w-7xl grid-cols-[minmax(0,1fr)_auto] items-center gap-4 px-4 py-4 sm:px-8 md:grid-cols-[auto_minmax(0,1fr)_auto] lg:px-12">
+    <main id="top" className="overflow-hidden bg-background text-foreground">
+      <header className="relative z-50 bg-background/90 backdrop-blur-sm">
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-5 sm:px-8 lg:px-12">
           <BrandMark />
-          <nav className="hidden items-center gap-8 text-xs font-bold md:flex" aria-label="Main navigation">
-            <a href="#showcase" className="transition-colors hover:text-signal">What you can show</a>
-            <a href="#professionals" className="transition-colors hover:text-signal">For professionals</a>
-            <a href="#evidence" className="transition-colors hover:text-signal">Why PROVEN</a>
+          <nav className="hidden items-center gap-8 text-xs font-semibold md:flex" aria-label="Main navigation">
+            <a href="#features" className="hover:text-accent">Features</a><a href="#example" className="hover:text-accent">Example</a><a href="#professionals" className="hover:text-accent">For professionals</a><a href="#why" className="hover:text-accent">Why PROVEN</a>
           </nav>
-          <a href="#start" className="shrink-0 bg-foreground px-4 py-3 text-xs font-bold text-primary-foreground transition-transform hover:-translate-y-0.5 sm:px-6">CREATE YOURS ↗</a>
+          <div className="hidden items-center gap-5 sm:flex"><a href="#start" className="text-xs font-semibold">Sign in</a><a href="#start" className={buttonVariants({ className: "rounded-full px-5 shadow-accent" })}>Get started <ArrowRight /></a></div>
+          <Menu className="size-5 sm:hidden" aria-label="Open navigation" />
         </div>
       </header>
 
-      <section className="border-b-2 border-foreground">
-        <div className="mx-auto grid min-h-[calc(100svh-66px)] max-w-7xl lg:grid-cols-[1.08fr_.92fr]">
-          <div className="flex flex-col justify-between border-foreground px-4 py-10 sm:px-8 sm:py-14 lg:border-r-2 lg:px-12 lg:py-16">
-            <div>
-              <div className="mb-9 flex items-center gap-3">
-                <span className="size-2 bg-signal" />
-                <span className="text-[10px] font-bold uppercase">The universal professional portfolio</span>
-              </div>
-              <h1 className="max-w-3xl font-display text-[clamp(3.25rem,8vw,7.7rem)] font-medium leading-[0.92]">
-                Your career is more than a <span className="relative inline-block"><span className="relative z-10">CV.</span><span className="absolute bottom-[6%] left-0 -z-0 h-[24%] w-full bg-highlight" /></span>
-              </h1>
-              <p className="mt-7 max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg">Bring your experience, education, work, credentials, achievements, and evidence together in one professional identity.</p>
-              <div className="mt-9 flex flex-col gap-3 sm:flex-row">
-                <a href="#start" className="bg-signal px-6 py-4 text-center text-sm font-bold text-accent-foreground transition-transform hover:-translate-y-0.5">CREATE YOUR PORTFOLIO ↗</a>
-                <a href="#example" className="border-2 border-foreground px-6 py-4 text-center text-sm font-bold transition-colors hover:bg-foreground hover:text-primary-foreground">EXPLORE AN EXAMPLE</a>
-              </div>
-            </div>
-            <div className="mt-14 grid grid-cols-3 border-t border-border pt-5 text-[10px] font-bold uppercase text-muted-foreground">
-              <span>01 · Build</span><span>02 · Prove</span><span>03 · Share</span>
-            </div>
+      <section className="relative min-h-[46rem] pb-24 pt-16 sm:pt-24 lg:min-h-[43rem] lg:pb-28">
+        <div className="hero-halo" />
+        <div className="relative mx-auto grid max-w-7xl items-center gap-16 px-5 sm:px-8 lg:grid-cols-[.88fr_1.12fr] lg:gap-8 lg:px-12">
+          <div className="relative z-10">
+            <p className="inline-flex rounded-full bg-accent-soft px-4 py-2 text-[9px] font-extrabold uppercase text-accent">The universal professional portfolio</p>
+            <h1 className="mt-6 max-w-2xl font-display text-[clamp(3.15rem,5.2vw,5.25rem)] font-bold leading-[1.03]">Your complete professional story. <span className="text-accent">All in one place.</span></h1>
+            <p className="mt-6 max-w-xl text-base leading-8 text-muted-foreground sm:text-lg">Build a credible professional identity with your experience, education, credentials, work, achievements, and proof.</p>
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row"><a href="#start" className={buttonVariants({ size: "lg", className: "h-13 rounded-full px-7 shadow-accent" })}>Create your portfolio <ArrowRight /></a><a href="#example" className={buttonVariants({ size: "lg", variant: "outline", className: "h-13 rounded-full px-7 shadow-none" })}>Explore an example</a></div>
+            <div className="mt-9 flex items-center gap-4"><div className="flex -space-x-2">{([['AO','accent'],['DK','warm'],['SM','ink'],['JL','accent']] as const).map(([name,tone]) => <span key={name} className="ring-2 ring-background"><ProfileAvatar initials={name} tone={tone} /></span>)}</div><p className="text-xs leading-5 text-muted-foreground"><b className="text-foreground">Made for every field</b><br/>One profile. Every chapter.</p></div>
           </div>
-          <div id="example" className="flex items-center bg-quiet px-4 py-12 sm:px-8 lg:px-12">
-            <PortfolioPreview />
-          </div>
+          <div id="example" className="relative"><DashboardPreview /></div>
         </div>
       </section>
 
-      <div className="overflow-hidden border-b-2 border-foreground bg-highlight py-4">
-        <p className="whitespace-nowrap font-display text-sm font-bold uppercase">CV → LinkedIn → Drive → Certificates → GitHub → Publications → Social media → <span className="text-signal">Bring it all together.</span></p>
-      </div>
+      <section className="border-y border-border bg-subtle py-12">
+        <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-12"><p className="text-center font-display text-sm font-bold">Built for professionals across every field</p><div className="mt-9 grid grid-cols-3 gap-6 sm:grid-cols-6">{professions.map(([Icon,label]) => <div key={label} className="group text-center"><span className="mx-auto grid size-12 place-items-center rounded-full bg-background text-accent shadow-soft transition-transform group-hover:-translate-y-1"><Icon className="size-5" /></span><p className="mt-3 text-[10px] font-semibold">{label}</p></div>)}</div></div>
+      </section>
 
-      <section id="showcase" className="border-b-2 border-foreground py-20 sm:py-28">
-        <div className="mx-auto max-w-7xl px-4 sm:px-8 lg:px-12">
-          <div className="grid gap-8 lg:grid-cols-[.8fr_1.2fr] lg:gap-16">
-            <div>
-              <p className="text-[10px] font-bold uppercase text-signal">What you can showcase</p>
-              <h2 className="mt-4 max-w-md font-display text-4xl font-semibold leading-tight sm:text-5xl">Your whole professional world.</h2>
-              <p className="mt-5 max-w-md leading-relaxed text-muted-foreground">Choose only what fits your field. Every section connects to the work, documents, and outcomes that support it.</p>
-            </div>
-            <div className="border-t-2 border-foreground">
-              {modules.map(([number, title, detail]) => (
-                <div key={title} className="grid grid-cols-[2.5rem_minmax(0,1fr)] gap-3 border-b border-border py-5 sm:grid-cols-[4rem_minmax(0,1fr)_auto] sm:items-center">
-                  <span className="text-xs font-bold text-signal">{number}</span>
-                  <h3 className="font-display text-lg font-semibold sm:text-xl">{title}</h3>
-                  <p className="col-start-2 text-sm text-muted-foreground sm:col-auto">{detail}</p>
-                </div>
-              ))}
-            </div>
-          </div>
+      <section id="features" className="py-24 sm:py-32">
+        <div className="mx-auto grid max-w-7xl gap-14 px-5 sm:px-8 lg:grid-cols-[.72fr_1.28fr] lg:gap-20 lg:px-12">
+          <div className="lg:pt-10"><p className="eyebrow">Everything that matters</p><h2 className="mt-5 max-w-md font-display text-4xl font-bold leading-tight sm:text-5xl">More than a portfolio. It’s your professional identity.</h2><p className="mt-6 max-w-md leading-7 text-muted-foreground">Showcase your work, prove your credentials, highlight your achievements, and tell the full story behind your career.</p></div>
+          <div className="grid gap-4 sm:grid-cols-2">{featureCards.map(([Icon,title,copy]) => <a href="#start" key={title} className="feature-card group"><span className="grid size-11 shrink-0 place-items-center rounded-xl bg-accent-soft text-accent"><Icon className="size-5" /></span><div><div className="flex items-center justify-between"><h3 className="font-display text-sm font-bold">{title}</h3><ChevronRight className="size-4 text-accent transition-transform group-hover:translate-x-1" /></div><p className="mt-2 text-xs leading-5 text-muted-foreground">{copy}</p></div></a>)}</div>
         </div>
       </section>
 
-      <section id="professionals" className="border-b-2 border-foreground bg-foreground py-20 text-primary-foreground sm:py-28">
-        <div className="mx-auto max-w-7xl px-4 sm:px-8 lg:px-12">
-          <div className="grid items-end gap-8 lg:grid-cols-2">
-            <div><p className="text-[10px] font-bold uppercase text-highlight">Built for every professional</p><h2 className="mt-4 max-w-2xl font-display text-4xl font-semibold leading-tight sm:text-6xl">The platform adapts to you. Not the other way around.</h2></div>
-            <p className="max-w-lg leading-relaxed text-primary-foreground/60 lg:justify-self-end">A lawyer can lead with credentials and publications. An engineer with projects and licenses. An author with books and speaking. Same platform. Different identity.</p>
-          </div>
-          <div className="mt-14 grid grid-cols-2 border-l border-t border-primary-foreground/25 sm:grid-cols-4">
-            {professions.map((profession, index) => <div key={profession} className={`${index === 3 ? "bg-signal" : index === 6 ? "bg-highlight text-foreground" : ""} border-b border-r border-primary-foreground/25 p-5 font-display text-sm font-bold sm:p-7`}>{profession}<span className="mt-6 block text-right text-xs">↗</span></div>)}
-          </div>
+      <section id="professionals" className="bg-subtle py-24 sm:py-28">
+        <div className="mx-auto grid max-w-7xl items-center gap-14 px-5 sm:px-8 lg:grid-cols-[.78fr_1.22fr] lg:px-12">
+          <div><p className="eyebrow">Built around you</p><h2 className="mt-5 max-w-lg font-display text-4xl font-bold leading-tight sm:text-5xl">Different paths. One place to prove them.</h2><p className="mt-6 max-w-md leading-7 text-muted-foreground">Whether you build, teach, create, write, research, advise, or lead, PROVEN gives your work the context it deserves.</p><a href="#start" className={buttonVariants({ className: "mt-8 rounded-full px-6 shadow-accent" })}>Create your portfolio <ArrowRight /></a></div>
+          <MiniProfileShowcase />
         </div>
       </section>
 
-      <section id="evidence" className="border-b-2 border-foreground py-20 sm:py-28">
-        <div className="mx-auto grid max-w-7xl gap-12 px-4 sm:px-8 lg:grid-cols-[.9fr_1.1fr] lg:px-12">
-          <div className="lg:sticky lg:top-10 lg:self-start">
-            <p className="text-[10px] font-bold uppercase text-signal">A career, not a list</p>
-            <h2 className="mt-4 max-w-lg font-display text-4xl font-semibold leading-tight sm:text-5xl">Show the story. Then show the proof.</h2>
-            <p className="mt-5 max-w-md leading-relaxed text-muted-foreground">Connect every milestone to the document, result, link, or recommendation behind it.</p>
-          </div>
-          <div className="border-l-2 border-foreground pl-5 sm:pl-9">
-            {timeline.map(([year, label, title], index) => (
-              <div key={year} className="relative border-b border-border py-7 first:pt-0">
-                <span className={`absolute -left-[1.8rem] top-8 size-3 border-2 border-foreground sm:-left-[2.65rem] ${index === 4 ? "bg-signal" : "bg-background"}`} />
-                <p className="text-[10px] font-bold text-signal">{year} · {label.toUpperCase()}</p>
-                <h3 className="mt-2 font-display text-xl font-semibold">{title}</h3>
-                {index > 1 && <span className="mt-3 inline-block border border-border px-2 py-1 text-[10px] font-bold">EVIDENCE ATTACHED ↗</span>}
-              </div>
-            ))}
-          </div>
-        </div>
+      <section id="why" className="relative overflow-hidden bg-primary py-24 text-primary-foreground sm:py-28">
+        <div className="mx-auto grid max-w-7xl items-end gap-12 px-5 sm:px-8 lg:grid-cols-[1fr_auto] lg:px-12"><div><p className="text-[10px] font-bold uppercase text-accent-bright">Your work deserves context</p><h2 className="mt-5 max-w-4xl font-display text-5xl font-bold leading-tight sm:text-6xl">Don’t just make claims. Connect every milestone to the evidence behind it.</h2></div><div className="grid gap-3 sm:grid-cols-3 lg:grid-cols-1">{["Documents", "Links", "Recommendations"].map((item) => <div key={item} className="flex min-w-44 items-center gap-3 border-b border-primary-foreground/20 py-3 text-sm"><Check className="size-4 text-accent-bright" />{item}</div>)}</div></div>
       </section>
 
-      <section id="start" className="bg-highlight py-20 sm:py-28">
-        <div className="mx-auto max-w-7xl px-4 sm:px-8 lg:px-12">
-          <div className="grid items-end gap-10 lg:grid-cols-[1fr_auto]">
-            <div><p className="text-[10px] font-bold uppercase">Your professional story starts here</p><h2 className="mt-4 max-w-4xl font-display text-5xl font-semibold leading-[.98] sm:text-7xl">Build the place your career deserves.</h2></div>
-            <a href="#top" className="bg-foreground px-8 py-5 text-center text-sm font-bold text-primary-foreground transition-transform hover:-translate-y-1">CREATE YOUR PORTFOLIO ↗</a>
-          </div>
-        </div>
-      </section>
+      <section id="start" className="py-24 sm:py-32"><div className="mx-auto max-w-4xl px-5 text-center sm:px-8"><p className="eyebrow">Your next chapter</p><h2 className="mt-5 font-display text-5xl font-bold leading-tight sm:text-6xl">Build the place your career deserves.</h2><p className="mx-auto mt-5 max-w-xl leading-7 text-muted-foreground">One polished profile for every role, project, credential, and achievement that shaped your work.</p><a href="#top" className={buttonVariants({ size: "lg", className: "mt-8 h-13 rounded-full px-8 shadow-accent" })}>Create your portfolio <ArrowRight /></a></div></section>
 
-      <footer className="bg-foreground px-4 py-8 text-primary-foreground sm:px-8 lg:px-12">
-        <div className="mx-auto flex max-w-7xl flex-col justify-between gap-6 sm:flex-row sm:items-center"><BrandMark /><p className="text-xs text-primary-foreground/50">One profile. Every chapter. All the evidence.</p><p className="text-xs">© 2026 PROVEN</p></div>
-      </footer>
+      <footer className="border-t border-border py-10"><div className="mx-auto flex max-w-7xl flex-col gap-8 px-5 sm:px-8 lg:flex-row lg:items-center lg:justify-between lg:px-12"><div><BrandMark /><p className="mt-3 text-xs text-muted-foreground">Your professional story. All in one place.</p></div><nav className="flex flex-wrap gap-6 text-xs font-semibold"><a href="#features">Features</a><a href="#example">Example</a><a href="#professionals">For professionals</a><a href="#why">Why PROVEN</a></nav><p className="text-xs text-muted-foreground">© 2026 PROVEN</p></div></footer>
     </main>
   );
 }
