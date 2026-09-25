@@ -18,7 +18,7 @@ import {
   Sparkles,
   UserRound,
 } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -150,7 +150,7 @@ function Index() {
           <nav className="hidden items-center gap-8 text-xs font-semibold md:flex" aria-label="Main navigation">
             <a href="#features" className="hover:text-accent">Features</a><a href="#example" className="hover:text-accent">Example</a><a href="#professionals" className="hover:text-accent">For professionals</a><a href="#why" className="hover:text-accent">Why PROVEN</a>
           </nav>
-          <div className="hidden items-center gap-5 sm:flex"><a href="#start" className="text-xs font-semibold">Sign in</a><Button asChild className="rounded-full px-5 shadow-accent"><a href="#start">Get started <ArrowRight /></a></Button></div>
+          <div className="hidden items-center gap-5 sm:flex"><a href="#start" className="text-xs font-semibold">Sign in</a><a href="#start" className={buttonVariants({ className: "rounded-full px-5 shadow-accent" })}>Get started <ArrowRight /></a></div>
           <Menu className="size-5 sm:hidden" aria-label="Open navigation" />
         </div>
       </header>
@@ -162,7 +162,7 @@ function Index() {
             <p className="inline-flex rounded-full bg-accent-soft px-4 py-2 text-[9px] font-extrabold uppercase text-accent">The universal professional portfolio</p>
             <h1 className="mt-6 max-w-2xl font-display text-[clamp(3.15rem,5.2vw,5.25rem)] font-bold leading-[1.03]">Your complete professional story. <span className="text-accent">All in one place.</span></h1>
             <p className="mt-6 max-w-xl text-base leading-8 text-muted-foreground sm:text-lg">Build a credible professional identity with your experience, education, credentials, work, achievements, and proof.</p>
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row"><Button asChild size="lg" className="h-13 rounded-full px-7 shadow-accent"><a href="#start">Create your portfolio <ArrowRight /></a></Button><Button asChild size="lg" variant="outline" className="h-13 rounded-full px-7 shadow-none"><a href="#example">Explore an example</a></Button></div>
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row"><a href="#start" className={buttonVariants({ size: "lg", className: "h-13 rounded-full px-7 shadow-accent" })}>Create your portfolio <ArrowRight /></a><a href="#example" className={buttonVariants({ size: "lg", variant: "outline", className: "h-13 rounded-full px-7 shadow-none" })}>Explore an example</a></div>
             <div className="mt-9 flex items-center gap-4"><div className="flex -space-x-2">{([['AO','accent'],['DK','warm'],['SM','ink'],['JL','accent']] as const).map(([name,tone]) => <span key={name} className="ring-2 ring-background"><ProfileAvatar initials={name} tone={tone} /></span>)}</div><p className="text-xs leading-5 text-muted-foreground"><b className="text-foreground">Made for every field</b><br/>One profile. Every chapter.</p></div>
           </div>
           <div id="example" className="relative"><DashboardPreview /></div>
@@ -182,7 +182,7 @@ function Index() {
 
       <section id="professionals" className="bg-subtle py-24 sm:py-28">
         <div className="mx-auto grid max-w-7xl items-center gap-14 px-5 sm:px-8 lg:grid-cols-[.78fr_1.22fr] lg:px-12">
-          <div><p className="eyebrow">Built around you</p><h2 className="mt-5 max-w-lg font-display text-4xl font-bold leading-tight sm:text-5xl">Different paths. One place to prove them.</h2><p className="mt-6 max-w-md leading-7 text-muted-foreground">Whether you build, teach, create, write, research, advise, or lead, PROVEN gives your work the context it deserves.</p><Button asChild className="mt-8 rounded-full px-6 shadow-accent"><a href="#start">Create your portfolio <ArrowRight /></a></Button></div>
+          <div><p className="eyebrow">Built around you</p><h2 className="mt-5 max-w-lg font-display text-4xl font-bold leading-tight sm:text-5xl">Different paths. One place to prove them.</h2><p className="mt-6 max-w-md leading-7 text-muted-foreground">Whether you build, teach, create, write, research, advise, or lead, PROVEN gives your work the context it deserves.</p><a href="#start" className={buttonVariants({ className: "mt-8 rounded-full px-6 shadow-accent" })}>Create your portfolio <ArrowRight /></a></div>
           <MiniProfileShowcase />
         </div>
       </section>
@@ -191,7 +191,7 @@ function Index() {
         <div className="mx-auto grid max-w-7xl items-end gap-12 px-5 sm:px-8 lg:grid-cols-[1fr_auto] lg:px-12"><div><p className="text-[10px] font-bold uppercase text-accent-bright">Your work deserves context</p><h2 className="mt-5 max-w-4xl font-display text-5xl font-bold leading-tight sm:text-6xl">Don’t just make claims. Connect every milestone to the evidence behind it.</h2></div><div className="grid gap-3 sm:grid-cols-3 lg:grid-cols-1">{["Documents", "Links", "Recommendations"].map((item) => <div key={item} className="flex min-w-44 items-center gap-3 border-b border-primary-foreground/20 py-3 text-sm"><Check className="size-4 text-accent-bright" />{item}</div>)}</div></div>
       </section>
 
-      <section id="start" className="py-24 sm:py-32"><div className="mx-auto max-w-4xl px-5 text-center sm:px-8"><p className="eyebrow">Your next chapter</p><h2 className="mt-5 font-display text-5xl font-bold leading-tight sm:text-6xl">Build the place your career deserves.</h2><p className="mx-auto mt-5 max-w-xl leading-7 text-muted-foreground">One polished profile for every role, project, credential, and achievement that shaped your work.</p><Button asChild size="lg" className="mt-8 h-13 rounded-full px-8 shadow-accent"><a href="#top">Create your portfolio <ArrowRight /></a></Button></div></section>
+      <section id="start" className="py-24 sm:py-32"><div className="mx-auto max-w-4xl px-5 text-center sm:px-8"><p className="eyebrow">Your next chapter</p><h2 className="mt-5 font-display text-5xl font-bold leading-tight sm:text-6xl">Build the place your career deserves.</h2><p className="mx-auto mt-5 max-w-xl leading-7 text-muted-foreground">One polished profile for every role, project, credential, and achievement that shaped your work.</p><a href="#top" className={buttonVariants({ size: "lg", className: "mt-8 h-13 rounded-full px-8 shadow-accent" })}>Create your portfolio <ArrowRight /></a></div></section>
 
       <footer className="border-t border-border py-10"><div className="mx-auto flex max-w-7xl flex-col gap-8 px-5 sm:px-8 lg:flex-row lg:items-center lg:justify-between lg:px-12"><div><BrandMark /><p className="mt-3 text-xs text-muted-foreground">Your professional story. All in one place.</p></div><nav className="flex flex-wrap gap-6 text-xs font-semibold"><a href="#features">Features</a><a href="#example">Example</a><a href="#professionals">For professionals</a><a href="#why">Why PROVEN</a></nav><p className="text-xs text-muted-foreground">© 2026 PROVEN</p></div></footer>
     </main>
