@@ -36,7 +36,7 @@ export function AuthShell({
           </div>
           <p className="text-xs text-muted-foreground">© 2026 PROVEN · Your professional story, backed by evidence.</p>
         </main>
-        <aside className="relative hidden items-center px-10 py-12 lg:flex">{aside ?? <DefaultAside />}</aside>
+        <aside className="relative hidden items-center px-10 py-12 lg:sticky lg:top-0 lg:flex lg:h-screen">{aside ?? <DefaultAside />}</aside>
       </div>
     </div>
   );
