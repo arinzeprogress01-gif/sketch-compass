@@ -20,11 +20,11 @@ export function AuthShell({
       <div className="hero-halo" />
       <div className="relative mx-auto grid min-h-screen max-w-7xl lg:grid-cols-[1.15fr_.85fr]">
         <main className="flex flex-col px-5 py-6 sm:px-8 lg:px-12">
-          <Link to="/" className="group flex w-fit items-center gap-2.5" aria-label="PROVEN home">
+          <Link to="/" className="group flex w-fit items-center gap-2.5" aria-label="FolioX home">
             <span className="grid size-8 place-items-center rounded-lg bg-primary text-primary-foreground">
               <Check className="size-4 stroke-[3] transition-transform group-hover:scale-110" />
             </span>
-            <span className="font-display text-base font-extrabold">PROVEN</span>
+            <span className="font-display text-base font-extrabold">FolioX</span>
           </Link>
           <div className="flex flex-1 items-center py-12">
             <div className="w-full max-w-xl">
@@ -34,7 +34,7 @@ export function AuthShell({
               <div className="mt-10">{children}</div>
             </div>
           </div>
-          <p className="text-xs text-muted-foreground">© 2026 PROVEN · Your professional story, backed by evidence.</p>
+          <p className="text-xs text-muted-foreground">© 2026 FolioX · Your professional story, backed by evidence.</p>
         </main>
         <aside className="relative hidden items-center px-10 py-12 lg:sticky lg:top-0 lg:flex lg:h-screen">{aside ?? <DefaultAside />}</aside>
       </div>

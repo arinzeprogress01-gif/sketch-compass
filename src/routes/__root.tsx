@@ -12,6 +12,7 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
+import { Toaster } from "@/components/ui/sonner";
 
 function NotFoundComponent() {
   return (
@@ -78,10 +79,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "PROVEN — Professional identity, backed by evidence" },
+      { title: "FolioX — Professional identity, backed by evidence" },
       { name: "description", content: "Build a complete professional portfolio that connects your experience, credentials, work, and achievements to real evidence." },
-      { name: "author", content: "PROVEN" },
-      { property: "og:title", content: "PROVEN — Professional identity, backed by evidence" },
+      { name: "author", content: "FolioX" },
+      { property: "og:title", content: "FolioX — Professional identity, backed by evidence" },
       { property: "og:description", content: "Your career is more than a CV. Bring your work, credentials, and achievements together in one professional identity." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -127,6 +128,7 @@ function RootComponent() {
     <QueryClientProvider client={queryClient}>
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
       <Outlet />
+      <Toaster position="top-right" richColors />
     </QueryClientProvider>
   );
 }

@@ -6,10 +6,10 @@ import { AuthShell, EMAIL_RE, Field, PASSWORD_MSG, PASSWORD_RE, SubmitButton } f
 export const Route = createFileRoute("/register")({
   head: () => ({
     meta: [
-      { title: "Create your account — PROVEN" },
-      { name: "description", content: "Create a PROVEN account and start building a professional portfolio backed by real evidence." },
-      { property: "og:title", content: "Create your account — PROVEN" },
-      { property: "og:description", content: "Start your evidence-backed professional portfolio on PROVEN." },
+      { title: "Create your account — FolioX" },
+      { name: "description", content: "Create a FolioX account and start building a professional portfolio backed by real evidence." },
+      { property: "og:title", content: "Create your account — FolioX" },
+      { property: "og:description", content: "Start your evidence-backed professional portfolio on FolioX." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
     ],

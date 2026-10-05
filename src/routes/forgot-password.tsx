@@ -6,10 +6,10 @@ import { AuthShell, EMAIL_RE, Field, PASSWORD_MSG, PASSWORD_RE, SubmitButton } f
 export const Route = createFileRoute("/forgot-password")({
   head: () => ({
     meta: [
-      { title: "Reset your password — PROVEN" },
-      { name: "description", content: "Reset your PROVEN password in three quick steps: email, verification code, new password." },
-      { property: "og:title", content: "Reset your password — PROVEN" },
-      { property: "og:description", content: "Regain access to your PROVEN portfolio." },
+      { title: "Reset your password — FolioX" },
+      { name: "description", content: "Reset your FolioX password in three quick steps: email, verification code, new password." },
+      { property: "og:title", content: "Reset your password — FolioX" },
+      { property: "og:description", content: "Regain access to your FolioX portfolio." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
     ],
