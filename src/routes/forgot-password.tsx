@@ -31,7 +31,7 @@ function ForgotPasswordPage() {
   const [code, setCode] = useState(Array(6).fill(""));
   const [pw, setPw] = useState("");
   const [confirm, setConfirm] = useState("");
-  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [errors, setErrors] = useState<Partial<Record<"email" | "code" | "pw" | "confirm" | "password", string>>>({});
   const [loading, setLoading] = useState(false);
   const refs = useRef<Array<HTMLInputElement | null>>([]);
 
@@ -39,7 +39,7 @@ function ForgotPasswordPage() {
 
   const submit = (e: FormEvent) => {
     e.preventDefault();
-    const err: Record<string, string> = {};
+    const err: Partial<Record<"email" | "code" | "pw" | "confirm" | "password", string>> = {};
     if (step === 0 && !EMAIL_RE.test(email.trim().toLowerCase())) err.email = "Please enter a valid email address, e.g. user@example.com";
     if (step === 1 && code.join("").length !== 6) err.code = "Enter all 6 digits of your code";
     if (step === 2) {
@@ -76,7 +76,7 @@ function ForgotPasswordPage() {
   }
 
   return (
-    <AuthShell eyebrow={`Step ${step + 1} of 3`} title={copy[step].title} subtitle={copy[step].sub}>
+    <AuthShell eyebrow={`Step ${step + 1} of 3`} title={copy[step]!.title} subtitle={copy[step]!.sub}>
       <ol className="mb-8 grid grid-cols-3 gap-2">
         {steps.map((s, i) => (
           <li key={s}>

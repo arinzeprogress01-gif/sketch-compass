@@ -20,12 +20,12 @@ export const Route = createFileRoute("/login")({
 function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [errors, setErrors] = useState<Partial<Record<"email" | "code" | "pw" | "confirm" | "password", string>>>({});
   const [loading, setLoading] = useState(false);
 
   const submit = (e: FormEvent) => {
     e.preventDefault();
-    const next: Record<string, string> = {};
+    const next: Partial<Record<"email" | "code" | "pw" | "confirm" | "password", string>> = {};
     if (!EMAIL_RE.test(email.trim().toLowerCase())) next.email = "Please enter a valid email address, e.g. user@example.com";
     if (!password) next.password = "Please enter your password";
     setErrors(next);
