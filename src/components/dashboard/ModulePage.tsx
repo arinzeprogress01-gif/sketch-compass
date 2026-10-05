@@ -39,7 +39,7 @@ export function ModulePage({ moduleKey }: { moduleKey: ModuleKey }) {
     const parsed = genericFormSchema.safeParse(form);
     const next: Record<string, string> = {};
     definition.fields.forEach((field) => { if (field.required && !form[field.key]?.trim()) next[field.key] = `${field.label} is required`; });
-    if (!parsed.success) next.form = "Please review the information and try again.";
+    if (!parsed.success) next["form"] = "Please review the information and try again.";
     setErrors(next);
     if (Object.keys(next).length) return;
     toast.success(`${definition.singular[0]?.toUpperCase()}${definition.singular.slice(1)} ready to save`, { description: "This preview does not store changes yet." });
