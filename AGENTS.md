@@ -8,3 +8,5 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+
+- Keep the FolioX workspace shell in the `/dashboard` layout and isolate preview data in `src/data/dashboard.ts` so a future data service can replace it cleanly.

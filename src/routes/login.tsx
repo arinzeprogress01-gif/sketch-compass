@@ -6,10 +6,10 @@ import { AuthShell, EMAIL_RE, Field, SubmitButton } from "@/components/auth/Auth
 export const Route = createFileRoute("/login")({
   head: () => ({
     meta: [
-      { title: "Sign in — PROVEN" },
-      { name: "description", content: "Sign in to PROVEN to manage your evidence-backed professional portfolio." },
-      { property: "og:title", content: "Sign in — PROVEN" },
-      { property: "og:description", content: "Return to your professional portfolio on PROVEN." },
+      { title: "Sign in — FolioX" },
+      { name: "description", content: "Sign in to FolioX to manage your evidence-backed professional portfolio." },
+      { property: "og:title", content: "Sign in — FolioX" },
+      { property: "og:description", content: "Return to your professional portfolio on FolioX." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
     ],
@@ -43,7 +43,7 @@ function LoginPage() {
           <Link to="/forgot-password" className="mt-2 inline-block text-xs font-semibold text-accent hover:underline">Forgot password?</Link>
         </div>
         <SubmitButton loading={loading}>Sign in <ArrowRight className="size-4" /></SubmitButton>
-        <p className="text-center text-sm text-muted-foreground">New to PROVEN? <Link to="/register" className="font-semibold text-accent hover:underline">Create an account</Link></p>
+        <p className="text-center text-sm text-muted-foreground">New to FolioX? <Link to="/register" className="font-semibold text-accent hover:underline">Create an account</Link></p>
       </form>
     </AuthShell>
   );
