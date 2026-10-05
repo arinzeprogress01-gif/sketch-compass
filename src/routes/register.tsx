@@ -84,7 +84,7 @@ function RegisterPage() {
   );
 }
 
-function Section({ n, title, optional, children }: { n: string; title: string; optional?: boolean; children: React.ReactNode }) {
+function Section({ n, title, optional, children }: { n: string; title: string; optional?: boolean | undefined; children: React.ReactNode }) {
   return (
     <fieldset className="rounded-2xl border border-border bg-card/70 p-5 shadow-soft sm:p-6">
       <legend className="sr-only">{title}</legend>

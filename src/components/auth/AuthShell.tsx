@@ -79,7 +79,7 @@ export function Field({
   hint,
   className = "",
   ...props
-}: InputHTMLAttributes<HTMLInputElement> & { label: string; error?: string; hint?: string }) {
+}: InputHTMLAttributes<HTMLInputElement> & { label: string; error?: string | undefined; hint?: string | undefined }) {
   const [show, setShow] = useState(false);
   const isPassword = props.type === "password";
   return (
@@ -103,7 +103,7 @@ export function Field({
   );
 }
 
-export function SubmitButton({ children, loading }: { children: ReactNode; loading?: boolean }) {
+export function SubmitButton({ children, loading }: { children: ReactNode; loading?: boolean | undefined }) {
   return (
     <button type="submit" disabled={loading} className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-full bg-primary px-6 text-sm font-semibold text-primary-foreground shadow-accent transition hover:-translate-y-0.5 disabled:opacity-60">
       {loading ? "Please wait…" : children}
