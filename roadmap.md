@@ -7,4 +7,4 @@
 - [x] Build the FolioX dashboard shell and command center
 - [x] Build professional identity, work, content, and evidence pages
 - [x] Build portfolio preview, publishing, settings, and support pages
-- [ ] Verify every FolioX workspace route on desktop and mobile
+- [x] Verify every FolioX workspace route on desktop and mobile
