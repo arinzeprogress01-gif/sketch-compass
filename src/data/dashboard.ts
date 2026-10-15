@@ -7,7 +7,7 @@ import {
 
 export type DashboardPath =
   | "/dashboard" | "/dashboard/profile" | "/dashboard/experience" | "/dashboard/education"
-  | "/dashboard/skills" | "/dashboard/projects" | "/dashboard/certifications" | "/dashboard/awards"
+  | "/dashboard/cv" | "/dashboard/skills" | "/dashboard/projects" | "/dashboard/certifications" | "/dashboard/awards"
   | "/dashboard/publications" | "/dashboard/services" | "/dashboard/testimonials" | "/dashboard/media"
   | "/dashboard/links" | "/dashboard/portfolio" | "/dashboard/portfolio/preview"
   | "/dashboard/portfolio/settings" | "/dashboard/settings" | "/dashboard/help";
@@ -37,6 +37,7 @@ export const navGroups: Array<{ label: string; items: NavItem[] }> = [
   ]},
   { label: "My portfolio", items: [
     { label: "Overview", to: "/dashboard/portfolio", icon: Sparkles },
+    { label: "CV Builder", to: "/dashboard/cv", icon: FileText },
     { label: "Preview", to: "/dashboard/portfolio/preview", icon: UserRound },
     { label: "Portfolio settings", to: "/dashboard/portfolio/settings", icon: Settings },
   ]},

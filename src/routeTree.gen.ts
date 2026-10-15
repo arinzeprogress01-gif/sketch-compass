@@ -17,6 +17,7 @@ import { Route as RegisterRouteImport } from './routes/register'
 import { Route as DashboardIndexRouteImport } from './routes/dashboard.index'
 import { Route as DashboardAwardsRouteImport } from './routes/dashboard.awards'
 import { Route as DashboardCertificationsRouteImport } from './routes/dashboard.certifications'
+import { Route as DashboardCvRouteImport } from './routes/dashboard.cv'
 import { Route as DashboardEducationRouteImport } from './routes/dashboard.education'
 import { Route as DashboardExperienceRouteImport } from './routes/dashboard.experience'
 import { Route as DashboardHelpRouteImport } from './routes/dashboard.help'
@@ -71,6 +72,11 @@ const DashboardAwardsRoute = DashboardAwardsRouteImport.update({
 const DashboardCertificationsRoute = DashboardCertificationsRouteImport.update({
   id: '/certifications',
   path: '/certifications',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardCvRoute = DashboardCvRouteImport.update({
+  id: '/cv',
+  path: '/cv',
   getParentRoute: () => DashboardRoute,
 } as any)
 const DashboardEducationRoute = DashboardEducationRouteImport.update({
@@ -159,6 +165,7 @@ export interface FileRoutesByFullPath {
   '/register': typeof RegisterRoute
   '/dashboard/awards': typeof DashboardAwardsRoute
   '/dashboard/certifications': typeof DashboardCertificationsRoute
+  '/dashboard/cv': typeof DashboardCvRoute
   '/dashboard/education': typeof DashboardEducationRoute
   '/dashboard/experience': typeof DashboardExperienceRoute
   '/dashboard/help': typeof DashboardHelpRoute
@@ -183,6 +190,7 @@ export interface FileRoutesByTo {
   '/register': typeof RegisterRoute
   '/dashboard/awards': typeof DashboardAwardsRoute
   '/dashboard/certifications': typeof DashboardCertificationsRoute
+  '/dashboard/cv': typeof DashboardCvRoute
   '/dashboard/education': typeof DashboardEducationRoute
   '/dashboard/experience': typeof DashboardExperienceRoute
   '/dashboard/help': typeof DashboardHelpRoute
@@ -209,6 +217,7 @@ export interface FileRoutesById {
   '/register': typeof RegisterRoute
   '/dashboard/awards': typeof DashboardAwardsRoute
   '/dashboard/certifications': typeof DashboardCertificationsRoute
+  '/dashboard/cv': typeof DashboardCvRoute
   '/dashboard/education': typeof DashboardEducationRoute
   '/dashboard/experience': typeof DashboardExperienceRoute
   '/dashboard/help': typeof DashboardHelpRoute
@@ -236,6 +245,7 @@ export interface FileRouteTypes {
     | '/register'
     | '/dashboard/awards'
     | '/dashboard/certifications'
+    | '/dashboard/cv'
     | '/dashboard/education'
     | '/dashboard/experience'
     | '/dashboard/help'
@@ -260,6 +270,7 @@ export interface FileRouteTypes {
     | '/register'
     | '/dashboard/awards'
     | '/dashboard/certifications'
+    | '/dashboard/cv'
     | '/dashboard/education'
     | '/dashboard/experience'
     | '/dashboard/help'
@@ -285,6 +296,7 @@ export interface FileRouteTypes {
     | '/register'
     | '/dashboard/awards'
     | '/dashboard/certifications'
+    | '/dashboard/cv'
     | '/dashboard/education'
     | '/dashboard/experience'
     | '/dashboard/help'
@@ -367,6 +379,13 @@ declare module '@tanstack/react-router' {
       path: '/certifications'
       fullPath: '/dashboard/certifications'
       preLoaderRoute: typeof DashboardCertificationsRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/cv': {
+      id: '/dashboard/cv'
+      path: '/cv'
+      fullPath: '/dashboard/cv'
+      preLoaderRoute: typeof DashboardCvRouteImport
       parentRoute: typeof DashboardRoute
     }
     '/dashboard/education': {
@@ -493,6 +512,7 @@ const DashboardPortfolioRouteWithChildren =
 interface DashboardRouteChildren {
   DashboardAwardsRoute: typeof DashboardAwardsRoute
   DashboardCertificationsRoute: typeof DashboardCertificationsRoute
+  DashboardCvRoute: typeof DashboardCvRoute
   DashboardEducationRoute: typeof DashboardEducationRoute
   DashboardExperienceRoute: typeof DashboardExperienceRoute
   DashboardHelpRoute: typeof DashboardHelpRoute
@@ -512,6 +532,7 @@ interface DashboardRouteChildren {
 const DashboardRouteChildren: DashboardRouteChildren = {
   DashboardAwardsRoute: DashboardAwardsRoute,
   DashboardCertificationsRoute: DashboardCertificationsRoute,
+  DashboardCvRoute: DashboardCvRoute,
   DashboardEducationRoute: DashboardEducationRoute,
   DashboardExperienceRoute: DashboardExperienceRoute,
   DashboardHelpRoute: DashboardHelpRoute,

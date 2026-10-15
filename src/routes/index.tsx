@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import {
   ArrowRight,
   Award,
@@ -18,7 +18,8 @@ import {
   Sparkles,
   UserRound,
 } from "lucide-react";
-import { buttonVariants } from "@/components/ui/button";
+import { useState } from "react";
+import { Button, buttonVariants } from "@/components/ui/button";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -142,6 +143,7 @@ function MiniProfileShowcase() {
 }
 
 function Index() {
+  const [menuOpen, setMenuOpen] = useState(false);
   return (
     <main id="top" className="overflow-hidden bg-background text-foreground">
       <header className="relative z-50 bg-background/90 backdrop-blur-sm">
@@ -150,9 +152,10 @@ function Index() {
           <nav className="hidden items-center gap-8 text-xs font-semibold md:flex" aria-label="Main navigation">
             <a href="#features" className="hover:text-accent">Features</a><a href="#example" className="hover:text-accent">Example</a><a href="#professionals" className="hover:text-accent">For professionals</a><a href="#why" className="hover:text-accent">Why FolioPro</a>
           </nav>
-          <div className="hidden items-center gap-5 sm:flex"><a href="/login" className="text-xs font-semibold">Sign in</a><a href="/register" className={buttonVariants({ className: "rounded-full px-5 shadow-accent" })}>Get started <ArrowRight /></a></div>
-          <Menu className="size-5 sm:hidden" aria-label="Open navigation" />
+          <div className="hidden items-center gap-5 sm:flex"><Link to="/dashboard" className="text-xs font-semibold text-accent">Dashboard</Link><Link to="/login" className="text-xs font-semibold">Sign in</Link><a href="/register" className={buttonVariants({ className: "rounded-full px-5 shadow-accent" })}>Get started <ArrowRight /></a></div>
+          <Button size="icon" variant="ghost" className="sm:hidden" aria-label="Open navigation" aria-expanded={menuOpen} onClick={() => setMenuOpen(!menuOpen)}><Menu /></Button>
         </div>
+        {menuOpen && <nav aria-label="Mobile navigation" className="flex flex-col gap-4 border-t border-border px-5 py-5 sm:hidden"><Link to="/dashboard">Dashboard</Link><Link to="/dashboard/cv">CV Builder</Link><Link to="/login">Sign in</Link><Link to="/register">Create account</Link></nav>}
       </header>
 
       <section className="relative min-h-[46rem] pb-24 pt-16 sm:pt-24 lg:min-h-[43rem] lg:pb-28">
@@ -162,7 +165,7 @@ function Index() {
             <p className="inline-flex rounded-full bg-accent-soft px-4 py-2 text-[9px] font-extrabold uppercase text-accent">The universal professional portfolio</p>
             <h1 className="mt-6 max-w-2xl font-display text-[clamp(3.15rem,5.2vw,5.25rem)] font-bold leading-[1.03]">Your complete professional story. <span className="text-accent">All in one place.</span></h1>
             <p className="mt-6 max-w-xl text-base leading-8 text-muted-foreground sm:text-lg">Build a credible professional identity with your experience, education, credentials, work, achievements, and proof.</p>
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row"><a href="/register" className={buttonVariants({ size: "lg", className: "h-13 rounded-full px-7 shadow-accent" })}>Create your portfolio <ArrowRight /></a><a href="#example" className={buttonVariants({ size: "lg", variant: "outline", className: "h-13 rounded-full px-7 shadow-none" })}>Explore an example</a></div>
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row"><a href="/register" className={buttonVariants({ size: "lg", className: "h-13 rounded-full px-7 shadow-accent" })}>Create your portfolio <ArrowRight /></a><a href="#example" className={buttonVariants({ size: "lg", variant: "outline", className: "h-13 rounded-full px-7 shadow-none" })}>Explore an example</a><Link to="/dashboard" className="mt-2 text-center text-sm font-bold text-accent sm:hidden">Open dashboard →</Link></div>
             <div className="mt-9 flex items-center gap-4"><div className="flex -space-x-2">{([['AO','accent'],['DK','warm'],['SM','ink'],['JL','accent']] as const).map(([name,tone]) => <span key={name} className="ring-2 ring-background"><ProfileAvatar initials={name} tone={tone} /></span>)}</div><p className="text-xs leading-5 text-muted-foreground"><b className="text-foreground">Made for every field</b><br/>One profile. Every chapter.</p></div>
           </div>
           <div id="example" className="relative"><DashboardPreview /></div>
