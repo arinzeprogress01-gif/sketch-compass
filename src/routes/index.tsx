@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import {
   ArrowRight,
   Award,
@@ -18,14 +18,15 @@ import {
   Sparkles,
   UserRound,
 } from "lucide-react";
-import { buttonVariants } from "@/components/ui/button";
+import { useState } from "react";
+import { Button, buttonVariants } from "@/components/ui/button";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "FolioX — Your complete professional story" },
+      { title: "FolioPro — Your complete professional story" },
       { name: "description", content: "Build one credible professional portfolio for your experience, work, credentials, achievements, and evidence." },
-      { property: "og:title", content: "FolioX — Your complete professional story" },
+      { property: "og:title", content: "FolioPro — Your complete professional story" },
       { property: "og:description", content: "Your career is more than a CV. Bring every chapter and the proof behind it into one beautiful professional identity." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -54,11 +55,11 @@ const featureCards = [
 
 function BrandMark({ inverse = false }: { inverse?: boolean }) {
   return (
-    <a href="#top" className="group flex items-center gap-2.5" aria-label="FolioX home">
+    <a href="#top" className="group flex items-center gap-2.5" aria-label="FolioPro home">
       <span className={`grid size-8 place-items-center rounded-lg ${inverse ? "bg-background text-foreground" : "bg-primary text-primary-foreground"}`}>
         <Check className="size-4 stroke-[3] transition-transform group-hover:scale-110" />
       </span>
-      <span className="font-display text-base font-extrabold">FolioX</span>
+      <span className="font-display text-base font-extrabold">FolioPro</span>
     </a>
   );
 }
@@ -73,7 +74,7 @@ function DashboardPreview() {
     <div className="relative mx-auto h-[25.5rem] w-full max-w-[39rem] sm:h-[29rem] lg:translate-x-4">
       <div className="absolute inset-x-0 bottom-0 top-8 overflow-hidden rounded-2xl border border-border bg-card shadow-premium sm:left-3 sm:right-2">
         <aside className="absolute inset-y-0 left-0 hidden w-[6.4rem] bg-primary p-3 text-primary-foreground sm:block">
-          <div className="mb-8 flex items-center gap-1.5 font-display text-[10px] font-extrabold"><span className="grid size-5 place-items-center rounded-md bg-accent">✓</span> FolioX</div>
+          <div className="mb-8 flex items-center gap-1.5 font-display text-[10px] font-extrabold"><span className="grid size-5 place-items-center rounded-md bg-accent">✓</span> FolioPro</div>
           {([[Sparkles,"Overview"],[UserRound,"Profile"],[BriefcaseBusiness,"Experience"],[GraduationCap,"Education"],[FolderKanban,"Projects"],[FileBadge,"Credentials"]] as const).map(([Icon, label], index) => (
             <div key={label} className={`mb-1 flex items-center gap-2 rounded-md px-2 py-2 text-[7px] ${index === 0 ? "bg-accent" : "text-primary-foreground/65"}`}>
               <Icon className="size-2.5" /> {label}
@@ -142,17 +143,19 @@ function MiniProfileShowcase() {
 }
 
 function Index() {
+  const [menuOpen, setMenuOpen] = useState(false);
   return (
     <main id="top" className="overflow-hidden bg-background text-foreground">
       <header className="relative z-50 bg-background/90 backdrop-blur-sm">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-5 sm:px-8 lg:px-12">
           <BrandMark />
           <nav className="hidden items-center gap-8 text-xs font-semibold md:flex" aria-label="Main navigation">
-            <a href="#features" className="hover:text-accent">Features</a><a href="#example" className="hover:text-accent">Example</a><a href="#professionals" className="hover:text-accent">For professionals</a><a href="#why" className="hover:text-accent">Why FolioX</a>
+            <a href="#features" className="hover:text-accent">Features</a><a href="#example" className="hover:text-accent">Example</a><a href="#professionals" className="hover:text-accent">For professionals</a><a href="#why" className="hover:text-accent">Why FolioPro</a>
           </nav>
-          <div className="hidden items-center gap-5 sm:flex"><a href="/login" className="text-xs font-semibold">Sign in</a><a href="/register" className={buttonVariants({ className: "rounded-full px-5 shadow-accent" })}>Get started <ArrowRight /></a></div>
-          <Menu className="size-5 sm:hidden" aria-label="Open navigation" />
+          <div className="hidden items-center gap-5 sm:flex"><Link to="/dashboard" className="text-xs font-semibold text-accent">Dashboard</Link><Link to="/login" className="text-xs font-semibold">Sign in</Link><a href="/register" className={buttonVariants({ className: "rounded-full px-5 shadow-accent" })}>Get started <ArrowRight /></a></div>
+          <Button size="icon" variant="ghost" className="sm:hidden" aria-label="Open navigation" aria-expanded={menuOpen} onClick={() => setMenuOpen(!menuOpen)}><Menu /></Button>
         </div>
+        {menuOpen && <nav aria-label="Mobile navigation" className="flex flex-col gap-4 border-t border-border px-5 py-5 sm:hidden"><Link to="/dashboard">Dashboard</Link><Link to="/dashboard/cv">CV Builder</Link><Link to="/login">Sign in</Link><Link to="/register">Create account</Link></nav>}
       </header>
 
       <section className="relative min-h-[46rem] pb-24 pt-16 sm:pt-24 lg:min-h-[43rem] lg:pb-28">
@@ -162,7 +165,7 @@ function Index() {
             <p className="inline-flex rounded-full bg-accent-soft px-4 py-2 text-[9px] font-extrabold uppercase text-accent">The universal professional portfolio</p>
             <h1 className="mt-6 max-w-2xl font-display text-[clamp(3.15rem,5.2vw,5.25rem)] font-bold leading-[1.03]">Your complete professional story. <span className="text-accent">All in one place.</span></h1>
             <p className="mt-6 max-w-xl text-base leading-8 text-muted-foreground sm:text-lg">Build a credible professional identity with your experience, education, credentials, work, achievements, and proof.</p>
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row"><a href="/register" className={buttonVariants({ size: "lg", className: "h-13 rounded-full px-7 shadow-accent" })}>Create your portfolio <ArrowRight /></a><a href="#example" className={buttonVariants({ size: "lg", variant: "outline", className: "h-13 rounded-full px-7 shadow-none" })}>Explore an example</a></div>
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row"><a href="/register" className={buttonVariants({ size: "lg", className: "h-13 rounded-full px-7 shadow-accent" })}>Create your portfolio <ArrowRight /></a><a href="#example" className={buttonVariants({ size: "lg", variant: "outline", className: "h-13 rounded-full px-7 shadow-none" })}>Explore an example</a><Link to="/dashboard" className="mt-2 text-center text-sm font-bold text-accent sm:hidden">Open dashboard →</Link></div>
             <div className="mt-9 flex items-center gap-4"><div className="flex -space-x-2">{([['AO','accent'],['DK','warm'],['SM','ink'],['JL','accent']] as const).map(([name,tone]) => <span key={name} className="ring-2 ring-background"><ProfileAvatar initials={name} tone={tone} /></span>)}</div><p className="text-xs leading-5 text-muted-foreground"><b className="text-foreground">Made for every field</b><br/>One profile. Every chapter.</p></div>
           </div>
           <div id="example" className="relative"><DashboardPreview /></div>
@@ -182,7 +185,7 @@ function Index() {
 
       <section id="professionals" className="bg-subtle py-24 sm:py-28">
         <div className="mx-auto grid max-w-7xl items-center gap-14 px-5 sm:px-8 lg:grid-cols-[.78fr_1.22fr] lg:px-12">
-          <div><p className="eyebrow">Built around you</p><h2 className="mt-5 max-w-lg font-display text-4xl font-bold leading-tight sm:text-5xl">Different paths. One place to prove them.</h2><p className="mt-6 max-w-md leading-7 text-muted-foreground">Whether you build, teach, create, write, research, advise, or lead, FolioX gives your work the context it deserves.</p><a href="#start" className={buttonVariants({ className: "mt-8 rounded-full px-6 shadow-accent" })}>Create your portfolio <ArrowRight /></a></div>
+          <div><p className="eyebrow">Built around you</p><h2 className="mt-5 max-w-lg font-display text-4xl font-bold leading-tight sm:text-5xl">Different paths. One place to prove them.</h2><p className="mt-6 max-w-md leading-7 text-muted-foreground">Whether you build, teach, create, write, research, advise, or lead, FolioPro gives your work the context it deserves.</p><a href="#start" className={buttonVariants({ className: "mt-8 rounded-full px-6 shadow-accent" })}>Create your portfolio <ArrowRight /></a></div>
           <MiniProfileShowcase />
         </div>
       </section>
@@ -193,7 +196,7 @@ function Index() {
 
       <section id="start" className="py-24 sm:py-32"><div className="mx-auto max-w-4xl px-5 text-center sm:px-8"><p className="eyebrow">Your next chapter</p><h2 className="mt-5 font-display text-5xl font-bold leading-tight sm:text-6xl">Build the place your career deserves.</h2><p className="mx-auto mt-5 max-w-xl leading-7 text-muted-foreground">One polished profile for every role, project, credential, and achievement that shaped your work.</p><a href="/register" className={buttonVariants({ size: "lg", className: "mt-8 h-13 rounded-full px-8 shadow-accent" })}>Create your portfolio <ArrowRight /></a></div></section>
 
-      <footer className="border-t border-border py-10"><div className="mx-auto flex max-w-7xl flex-col gap-8 px-5 sm:px-8 lg:flex-row lg:items-center lg:justify-between lg:px-12"><div><BrandMark /><p className="mt-3 text-xs text-muted-foreground">Your professional story. All in one place.</p></div><nav className="flex flex-wrap gap-6 text-xs font-semibold"><a href="#features">Features</a><a href="#example">Example</a><a href="#professionals">For professionals</a><a href="#why">Why FolioX</a></nav><p className="text-xs text-muted-foreground">© 2026 FolioX</p></div></footer>
+      <footer className="border-t border-border py-10"><div className="mx-auto flex max-w-7xl flex-col gap-8 px-5 sm:px-8 lg:flex-row lg:items-center lg:justify-between lg:px-12"><div><BrandMark /><p className="mt-3 text-xs text-muted-foreground">Your professional story. All in one place.</p></div><nav className="flex flex-wrap gap-6 text-xs font-semibold"><a href="#features">Features</a><a href="#example">Example</a><a href="#professionals">For professionals</a><a href="#why">Why FolioPro</a></nav><p className="text-xs text-muted-foreground">© 2026 FolioPro</p></div></footer>
     </main>
   );
 }

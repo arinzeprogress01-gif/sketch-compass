@@ -8,3 +8,10 @@
 - [x] Build professional identity, work, content, and evidence pages
 - [x] Build portfolio preview, publishing, settings, and support pages
 - [x] Verify every FolioX workspace route on desktop and mobile
+
+## FolioPro completion
+- [ ] Rename the product to FolioPro and make the workspace accessible from the homepage
+- [ ] Build an editable CV generator with templates, preview, and PDF printing
+- [ ] Complete missing frontend interactions without claiming real account persistence
+- [ ] Deliver complete backend interface documentation
+- [ ] Verify the completed flows and layouts

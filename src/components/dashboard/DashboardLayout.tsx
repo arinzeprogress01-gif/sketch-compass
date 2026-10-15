@@ -1,16 +1,17 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import { Bell, ChevronLeft, ChevronRight, CircleHelp, LogOut, Menu, Search, Settings, UserRound, X } from "lucide-react";
 import { useEffect, useMemo, useState, type ReactNode } from "react";
-import { buttonVariants } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
-import { FolioXMark } from "@/components/dashboard/FolioXMark";
+import { FolioProMark } from "@/components/dashboard/FolioProMark";
 import { navGroups, viewer, type DashboardPath } from "@/data/dashboard";
+import { useWorkspace } from "@/components/dashboard/WorkspaceProvider";
 import { cn } from "@/lib/utils";
 
 const pathLabels: Record<string, string> = {
-  "/dashboard": "Dashboard", "/dashboard/profile": "Profile", "/dashboard/experience": "Experience",
+  "/dashboard/cv": "CV Builder", "/dashboard": "Dashboard", "/dashboard/profile": "Profile", "/dashboard/experience": "Experience",
   "/dashboard/education": "Education", "/dashboard/skills": "Skills", "/dashboard/projects": "Projects / Work",
   "/dashboard/certifications": "Certifications", "/dashboard/awards": "Awards", "/dashboard/publications": "Publications",
   "/dashboard/services": "Services", "/dashboard/testimonials": "Testimonials", "/dashboard/media": "Media & Documents",
@@ -19,6 +20,7 @@ const pathLabels: Record<string, string> = {
 };
 
 export function DashboardLayout({ children }: { children: ReactNode }) {
+  const { profile } = useWorkspace();
   const pathname = useRouterState({ select: (state) => state.location.pathname });
   const [collapsed, setCollapsed] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -26,15 +28,16 @@ export function DashboardLayout({ children }: { children: ReactNode }) {
   const [notificationsOpen, setNotificationsOpen] = useState(false);
 
   useEffect(() => {
-    const stored = window.localStorage.getItem("foliox-sidebar-collapsed");
+    const stored = window.localStorage.getItem("foliopro-sidebar-collapsed");
     setCollapsed(stored === "true");
   }, []);
-  const toggleCollapsed = () => setCollapsed((value) => { window.localStorage.setItem("foliox-sidebar-collapsed", String(!value)); return !value; });
+  useEffect(() => { const handler = (event: KeyboardEvent) => { if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "k") { event.preventDefault(); setSearchOpen((value) => !value); } }; window.addEventListener("keydown", handler); return () => window.removeEventListener("keydown", handler); }, []);
+  const toggleCollapsed = () => setCollapsed((value) => { window.localStorage.setItem("foliopro-sidebar-collapsed", String(!value)); return !value; });
 
   return (
     <div className="min-h-screen bg-subtle text-foreground">
       <aside className={cn("fixed inset-y-0 left-0 z-40 hidden border-r border-sidebar-border bg-sidebar text-sidebar-foreground transition-[width] duration-200 lg:flex lg:flex-col", collapsed ? "w-20" : "w-72")}>
-        <div className="flex h-18 items-center justify-between px-5"><FolioXMark compact={collapsed} inverse />{!collapsed && <button onClick={toggleCollapsed} className="grid size-8 place-items-center rounded-lg text-sidebar-foreground/60 hover:bg-sidebar-foreground/10 hover:text-sidebar-foreground" aria-label="Collapse sidebar"><ChevronLeft className="size-4" /></button>}</div>
+        <div className="flex h-18 items-center justify-between px-5"><FolioProMark compact={collapsed} inverse />{!collapsed && <button onClick={toggleCollapsed} className="grid size-8 place-items-center rounded-lg text-sidebar-foreground/60 hover:bg-sidebar-foreground/10 hover:text-sidebar-foreground" aria-label="Collapse sidebar"><ChevronLeft className="size-4" /></button>}</div>
         <SidebarNavigation pathname={pathname} collapsed={collapsed} onNavigate={() => undefined} />
         <AccountArea collapsed={collapsed} />
         {collapsed && <button onClick={toggleCollapsed} className="mx-auto mb-3 grid size-9 place-items-center rounded-lg text-sidebar-foreground/60 hover:bg-sidebar-foreground/10 hover:text-sidebar-foreground" aria-label="Expand sidebar"><ChevronRight className="size-4" /></button>}
@@ -42,7 +45,7 @@ export function DashboardLayout({ children }: { children: ReactNode }) {
 
       {mobileOpen && <div className="fixed inset-0 z-50 bg-foreground/50 lg:hidden" onClick={() => setMobileOpen(false)} aria-hidden="true" />}
       <aside className={cn("fixed inset-y-0 left-0 z-50 flex w-[18rem] max-w-[86vw] flex-col bg-sidebar text-sidebar-foreground shadow-premium transition-transform lg:hidden", mobileOpen ? "translate-x-0" : "-translate-x-full")} aria-hidden={!mobileOpen}>
-        <div className="flex h-18 items-center justify-between px-5"><FolioXMark inverse /><button onClick={() => setMobileOpen(false)} className="grid size-10 place-items-center rounded-lg hover:bg-sidebar-foreground/10" aria-label="Close navigation"><X className="size-5" /></button></div>
+        <div className="flex h-18 items-center justify-between px-5"><FolioProMark inverse /><button onClick={() => setMobileOpen(false)} className="grid size-10 place-items-center rounded-lg hover:bg-sidebar-foreground/10" aria-label="Close navigation"><X className="size-5" /></button></div>
         <SidebarNavigation pathname={pathname} collapsed={false} onNavigate={() => setMobileOpen(false)} />
         <AccountArea collapsed={false} />
       </aside>
@@ -58,7 +61,7 @@ export function DashboardLayout({ children }: { children: ReactNode }) {
             <UserMenu compact />
           </div>
         </header>
-        <main className="mx-auto max-w-[96rem] px-4 py-7 sm:px-7 sm:py-10">{children}</main>
+        <main className="mx-auto max-w-[96rem] px-4 py-7 sm:px-7 sm:py-10"><div className="mb-6 flex flex-wrap items-center justify-between gap-2 border-b border-border pb-3 text-xs text-muted-foreground"><span>Preview workspace · Changes last until this page is refreshed.</span><span>{profile.name}</span></div>{children}</main>
       </div>
       <SearchDialog open={searchOpen} onOpenChange={setSearchOpen} />
       <NotificationsDialog open={notificationsOpen} onOpenChange={setNotificationsOpen} />
@@ -75,13 +78,15 @@ function AccountArea({ collapsed }: { collapsed: boolean }) {
 }
 
 function UserMenu({ compact = false, inverse = false }: { compact?: boolean; inverse?: boolean }) {
-  return <DropdownMenu><DropdownMenuTrigger className={cn("flex items-center rounded-xl outline-none focus-visible:ring-2 focus-visible:ring-ring", compact ? "size-10 justify-center" : "w-full gap-3 p-2 text-left", inverse && "hover:bg-sidebar-foreground/10")} aria-label="Open account menu"><span className="grid size-9 shrink-0 place-items-center rounded-full bg-highlight font-display text-xs font-bold text-foreground">{viewer.initials}</span>{!compact && <span className="min-w-0"><span className="block truncate text-xs font-bold">{viewer.fullName}</span><span className={cn("block truncate text-[10px]", inverse ? "text-sidebar-foreground/50" : "text-muted-foreground")}>{viewer.headline}</span></span>}</DropdownMenuTrigger><DropdownMenuContent align="end" className="w-64 rounded-xl p-2"><DropdownMenuLabel><span className="block text-xs">{viewer.fullName}</span><span className="block text-[10px] font-normal text-muted-foreground">{viewer.email}</span></DropdownMenuLabel><DropdownMenuSeparator/><DropdownMenuItem asChild><Link to="/dashboard/profile"><UserRound />My Profile</Link></DropdownMenuItem><DropdownMenuItem asChild><Link to="/dashboard/portfolio"><Settings />My Portfolio</Link></DropdownMenuItem><DropdownMenuItem asChild><Link to="/dashboard/settings"><Settings />Settings</Link></DropdownMenuItem><DropdownMenuItem asChild><Link to="/dashboard/help"><CircleHelp />Help & Support</Link></DropdownMenuItem><DropdownMenuSeparator/><DropdownMenuItem asChild className="text-destructive focus:text-destructive"><Link to="/login"><LogOut />Log Out</Link></DropdownMenuItem></DropdownMenuContent></DropdownMenu>;
+  const { profile } = useWorkspace();
+  const [logoutOpen, setLogoutOpen] = useState(false);
+  return <> <DropdownMenu><DropdownMenuTrigger className={cn("flex items-center rounded-xl outline-none focus-visible:ring-2 focus-visible:ring-ring", compact ? "size-10 justify-center" : "w-full gap-3 p-2 text-left", inverse && "hover:bg-sidebar-foreground/10")} aria-label="Open account menu"><span className="grid size-9 shrink-0 place-items-center rounded-full bg-highlight font-display text-xs font-bold text-foreground">{viewer.initials}</span>{!compact && <span className="min-w-0"><span className="block truncate text-xs font-bold">{profile.name}</span><span className={cn("block truncate text-[10px]", inverse ? "text-sidebar-foreground/50" : "text-muted-foreground")}>{profile.headline}</span></span>}</DropdownMenuTrigger><DropdownMenuContent align="end" className="w-64 rounded-xl p-2"><DropdownMenuLabel><span className="block text-xs">{profile.name}</span><span className="block text-[10px] font-normal text-muted-foreground">{profile.email}</span></DropdownMenuLabel><DropdownMenuSeparator/><DropdownMenuItem asChild><Link to="/dashboard/profile"><UserRound />My Profile</Link></DropdownMenuItem><DropdownMenuItem asChild><Link to="/dashboard/portfolio"><Settings />My Portfolio</Link></DropdownMenuItem><DropdownMenuItem asChild><Link to="/dashboard/settings"><Settings />Settings</Link></DropdownMenuItem><DropdownMenuItem asChild><Link to="/dashboard/help"><CircleHelp />Help & Support</Link></DropdownMenuItem><DropdownMenuSeparator/><DropdownMenuItem className="text-destructive focus:text-destructive" onClick={() => setLogoutOpen(true)}><LogOut />Log Out</DropdownMenuItem></DropdownMenuContent></DropdownMenu><Dialog open={logoutOpen} onOpenChange={setLogoutOpen}><DialogContent><DialogHeader><DialogTitle>Leave your workspace?</DialogTitle><DialogDescription>Your changes are only available in this preview session.</DialogDescription></DialogHeader><div className="flex justify-end gap-3"><Button variant="outline" onClick={() => setLogoutOpen(false)}>Stay here</Button><Link to="/login" className={buttonVariants()}>Leave workspace</Link></div></DialogContent></Dialog></>;
 }
 
 function SearchDialog({ open, onOpenChange }: { open: boolean; onOpenChange: (open: boolean) => void }) {
   const [query, setQuery] = useState("");
   const results = useMemo(() => navGroups.flatMap((group) => group.items).filter((item) => item.label.toLowerCase().includes(query.toLowerCase()) && query.trim()), [query]);
-  return <Dialog open={open} onOpenChange={onOpenChange}><DialogContent className="top-[16%] translate-y-0 rounded-2xl sm:max-w-xl"><DialogHeader><DialogTitle className="font-display">Search FolioX</DialogTitle><DialogDescription>Find a workspace section. Content search will be connected with your account data.</DialogDescription></DialogHeader><div className="relative"><Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground"/><Input autoFocus maxLength={100} value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Try “projects” or “certifications”" className="h-12 rounded-xl pl-10" /></div><div className="max-h-72 overflow-y-auto">{query && !results.length && <p className="py-8 text-center text-sm text-muted-foreground">No matching workspace sections.</p>}{results.map((item) => <Link key={item.to} to={item.to} onClick={() => onOpenChange(false)} className="flex items-center gap-3 rounded-xl px-3 py-3 hover:bg-subtle"><item.icon className="size-4 text-accent"/><span className="text-sm font-semibold">{item.label}</span></Link>)}</div></DialogContent></Dialog>;
+  return <Dialog open={open} onOpenChange={onOpenChange}><DialogContent className="top-[16%] translate-y-0 rounded-2xl sm:max-w-xl"><DialogHeader><DialogTitle className="font-display">Search FolioPro</DialogTitle><DialogDescription>Find a workspace section. Content search will be connected with your account data.</DialogDescription></DialogHeader><div className="relative"><Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground"/><Input autoFocus maxLength={100} value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Try “projects” or “certifications”" className="h-12 rounded-xl pl-10" /></div><div className="max-h-72 overflow-y-auto">{query && !results.length && <p className="py-8 text-center text-sm text-muted-foreground">No matching workspace sections.</p>}{results.map((item) => <Link key={item.to} to={item.to} onClick={() => onOpenChange(false)} className="flex items-center gap-3 rounded-xl px-3 py-3 hover:bg-subtle"><item.icon className="size-4 text-accent"/><span className="text-sm font-semibold">{item.label}</span></Link>)}</div></DialogContent></Dialog>;
 }
 
 function NotificationsDialog({ open, onOpenChange }: { open: boolean; onOpenChange: (open: boolean) => void }) {
