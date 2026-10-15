@@ -79,10 +79,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "FolioX — Professional identity, backed by evidence" },
+      { title: "FolioPro — Professional identity, backed by evidence" },
       { name: "description", content: "Build a complete professional portfolio that connects your experience, credentials, work, and achievements to real evidence." },
-      { name: "author", content: "FolioX" },
-      { property: "og:title", content: "FolioX — Professional identity, backed by evidence" },
+      { name: "author", content: "FolioPro" },
+      { property: "og:title", content: "FolioPro — Professional identity, backed by evidence" },
       { property: "og:description", content: "Your career is more than a CV. Bring your work, credentials, and achievements together in one professional identity." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
