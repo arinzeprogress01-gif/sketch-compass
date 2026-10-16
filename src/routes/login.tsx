@@ -1,4 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { toast } from "sonner";
+import { buttonVariants } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import { useState, type FormEvent } from "react";
 import { AuthShell, EMAIL_RE, Field, SubmitButton } from "@/components/auth/AuthShell";
@@ -31,7 +33,7 @@ function LoginPage() {
     setErrors(next);
     if (Object.keys(next).length) return;
     setLoading(true);
-    setTimeout(() => setLoading(false), 900);
+    setTimeout(() => { setLoading(false); toast.info("Preview only", { description: "Account services are not connected. You can explore the sample workspace below." }); }, 500);
   };
 
   return (
@@ -44,6 +46,7 @@ function LoginPage() {
         </div>
         <SubmitButton loading={loading}>Sign in <ArrowRight className="size-4" /></SubmitButton>
         <p className="text-center text-sm text-muted-foreground">New to FolioPro? <Link to="/register" className="font-semibold text-accent hover:underline">Create an account</Link></p>
+        <Link to="/dashboard" className={buttonVariants({ variant: "outline", className: "w-full rounded-full" })}>Explore preview workspace</Link>
       </form>
     </AuthShell>
   );
