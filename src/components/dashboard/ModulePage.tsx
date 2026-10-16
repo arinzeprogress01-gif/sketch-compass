@@ -47,13 +47,13 @@ export function ModulePage({ moduleKey }: { moduleKey: ModuleKey }) {
     const parsed = genericFormSchema.safeParse(form);
     const next: Record<string, string> = {};
     definition.fields.forEach((field) => { if (field.required && !form[field.key]?.trim()) next[field.key] = `${field.label} is required`; });
-    if (form.url && !/^https?:\/\//i.test(form.url)) next.url = "Enter a complete https:// or http:// URL.";
+    if (form["url"] && !/^https?:\/\//i.test(form["url"])) next["url"] = "Enter a complete https:// or http:// URL.";
     if (!parsed.success) next["form"] = "Please review the information and try again.";
     setErrors(next);
     if (Object.keys(next).length) return;
     const firstKey = definition.fields[0]?.key ?? "title";
     const secondKey = definition.fields[1]?.key ?? "";
-    const entry: WorkspaceEntry = { id: editing?.id ?? crypto.randomUUID(), fields: { ...form }, title: form[firstKey]?.trim() ?? "Untitled", meta: form[secondKey] ?? "", detail: form.description ?? form.testimonial ?? "", visibility, evidence: attachment || undefined };
+    const entry: WorkspaceEntry = { id: editing?.id ?? crypto.randomUUID(), fields: { ...form }, title: form[firstKey]?.trim() ?? "Untitled", meta: form[secondKey] ?? "", detail: form["description"] ?? form["testimonial"] ?? "", visibility, ...(attachment ? { evidence: attachment } : {}) };
     setEntries((current) => ({ ...current, [moduleKey]: editing ? current[moduleKey].map((row) => row.id === editing.id ? entry : row) : [...current[moduleKey], entry] }));
     toast.success("Preview updated", { description: "Changes last for this workspace session." });
     setOpen(false); setForm({});
@@ -84,7 +84,7 @@ export function ModulePage({ moduleKey }: { moduleKey: ModuleKey }) {
       <Dialog open={open} onOpenChange={setOpen}><DialogContent className="max-h-[90vh] overflow-y-auto rounded-2xl sm:max-w-2xl"><DialogHeader><DialogTitle className="font-display text-2xl">{editing ? `Edit ${definition.singular}` : definition.addLabel}</DialogTitle><DialogDescription>Add the details that help this chapter feel credible and complete.</DialogDescription></DialogHeader><form onSubmit={submit} className="mt-3 grid gap-5 sm:grid-cols-2" noValidate>
         {definition.fields.map((field) => <label key={field.key} className={cn("text-xs font-bold", field.key === "description" || field.key === "testimonial" ? "sm:col-span-2" : "")}><span>{field.label}{field.required && <b className="text-accent"> *</b>}</span>{field.key === "description" || field.key === "testimonial" ? <Textarea maxLength={1000} rows={5} value={form[field.key] ?? ""} onChange={(e) => setForm((current) => ({ ...current, [field.key]: e.target.value }))} placeholder={field.placeholder} className="mt-2 rounded-xl bg-card" /> : <Input maxLength={255} type={field.type ?? "text"} value={form[field.key] ?? ""} onChange={(e) => setForm((current) => ({ ...current, [field.key]: e.target.value }))} placeholder={field.placeholder} className="mt-2 h-11 rounded-xl bg-card" />}{errors[field.key] && <span className="mt-1 block font-normal text-destructive">{errors[field.key]}</span>}</label>)}
         <label className="text-xs font-bold">Visibility<select aria-label="Entry visibility" value={visibility} onChange={(event) => { const value = event.target.value; if (value === "Public" || value === "Private" || value === "Hidden") setVisibility(value); }} className="mt-2 h-11 w-full rounded-lg border border-input bg-card px-3"><option>Private</option><option>Public</option><option>Hidden</option></select></label>
-        {errors.form && <p role="alert" className="text-sm text-destructive">{errors.form}</p>}
+        {errors["form"] && <p role="alert" className="text-sm text-destructive">{errors["form"]}</p>}
         <div className="sm:col-span-2 rounded-xl border border-dashed border-border bg-subtle p-5"><div className="flex gap-3"><FileUp className="size-5 text-accent" /><div><p className="text-sm font-bold">Supporting evidence</p><p className="mt-1 text-xs leading-5 text-muted-foreground">New evidence stays private until you explicitly make it public.</p></div></div><Input aria-label="Attach supporting evidence" type="file" className="mt-4 bg-card" onChange={(event) => setAttachment(event.target.files?.[0]?.name ?? "")} />{attachment && <p className="mt-2 text-xs">{attachment} · Private attachment, session only</p>}</div>
         <DialogFooter className="sm:col-span-2"><Button type="button" variant="outline" onClick={() => setOpen(false)}>Cancel</Button><Button type="submit">Save {definition.singular}</Button></DialogFooter>
       </form></DialogContent></Dialog>
