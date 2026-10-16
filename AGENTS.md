@@ -13,3 +13,5 @@
 
 - Keep workspace edits in a shared, session-only preview provider until a real data service is connected; this makes lists, profile, CV and portfolio reflect the same data without implying persistence.
 - Generate CV downloads in the browser from structured CV data with a dynamically imported PDF library; private documents must not require an external service.
+- Keep portfolio overview content in its index leaf and its parent as an Outlet layout, so preview and settings children render independently.
+- Keep portfolio privacy filters in shared pure functions with tests; display visibility is not a substitute for server authorization.
