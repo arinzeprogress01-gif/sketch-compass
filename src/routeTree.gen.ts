@@ -31,6 +31,7 @@ import { Route as DashboardServicesRouteImport } from './routes/dashboard.servic
 import { Route as DashboardSettingsRouteImport } from './routes/dashboard.settings'
 import { Route as DashboardSkillsRouteImport } from './routes/dashboard.skills'
 import { Route as DashboardTestimonialsRouteImport } from './routes/dashboard.testimonials'
+import { Route as DashboardPortfolioIndexRouteImport } from './routes/dashboard.portfolio.index'
 import { Route as DashboardPortfolioPreviewRouteImport } from './routes/dashboard.portfolio.preview'
 import { Route as DashboardPortfolioSettingsRouteImport } from './routes/dashboard.portfolio.settings'
 
@@ -144,6 +145,11 @@ const DashboardTestimonialsRoute = DashboardTestimonialsRouteImport.update({
   path: '/testimonials',
   getParentRoute: () => DashboardRoute,
 } as any)
+const DashboardPortfolioIndexRoute = DashboardPortfolioIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => DashboardPortfolioRoute,
+} as any)
 const DashboardPortfolioPreviewRoute =
   DashboardPortfolioPreviewRouteImport.update({
     id: '/preview',
@@ -182,6 +188,7 @@ export interface FileRoutesByFullPath {
   '/dashboard/': typeof DashboardIndexRoute
   '/dashboard/portfolio/preview': typeof DashboardPortfolioPreviewRoute
   '/dashboard/portfolio/settings': typeof DashboardPortfolioSettingsRoute
+  '/dashboard/portfolio/': typeof DashboardPortfolioIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -196,7 +203,6 @@ export interface FileRoutesByTo {
   '/dashboard/help': typeof DashboardHelpRoute
   '/dashboard/links': typeof DashboardLinksRoute
   '/dashboard/media': typeof DashboardMediaRoute
-  '/dashboard/portfolio': typeof DashboardPortfolioRouteWithChildren
   '/dashboard/profile': typeof DashboardProfileRoute
   '/dashboard/projects': typeof DashboardProjectsRoute
   '/dashboard/publications': typeof DashboardPublicationsRoute
@@ -207,6 +213,7 @@ export interface FileRoutesByTo {
   '/dashboard': typeof DashboardIndexRoute
   '/dashboard/portfolio/preview': typeof DashboardPortfolioPreviewRoute
   '/dashboard/portfolio/settings': typeof DashboardPortfolioSettingsRoute
+  '/dashboard/portfolio': typeof DashboardPortfolioIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -234,6 +241,7 @@ export interface FileRoutesById {
   '/dashboard/': typeof DashboardIndexRoute
   '/dashboard/portfolio/preview': typeof DashboardPortfolioPreviewRoute
   '/dashboard/portfolio/settings': typeof DashboardPortfolioSettingsRoute
+  '/dashboard/portfolio/': typeof DashboardPortfolioIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -262,6 +270,7 @@ export interface FileRouteTypes {
     | '/dashboard/'
     | '/dashboard/portfolio/preview'
     | '/dashboard/portfolio/settings'
+    | '/dashboard/portfolio/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -276,7 +285,6 @@ export interface FileRouteTypes {
     | '/dashboard/help'
     | '/dashboard/links'
     | '/dashboard/media'
-    | '/dashboard/portfolio'
     | '/dashboard/profile'
     | '/dashboard/projects'
     | '/dashboard/publications'
@@ -287,6 +295,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/dashboard/portfolio/preview'
     | '/dashboard/portfolio/settings'
+    | '/dashboard/portfolio'
   id:
     | '__root__'
     | '/'
@@ -313,6 +322,7 @@ export interface FileRouteTypes {
     | '/dashboard/'
     | '/dashboard/portfolio/preview'
     | '/dashboard/portfolio/settings'
+    | '/dashboard/portfolio/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -479,6 +489,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardTestimonialsRouteImport
       parentRoute: typeof DashboardRoute
     }
+    '/dashboard/portfolio/': {
+      id: '/dashboard/portfolio/'
+      path: '/'
+      fullPath: '/dashboard/portfolio/'
+      preLoaderRoute: typeof DashboardPortfolioIndexRouteImport
+      parentRoute: typeof DashboardPortfolioRoute
+    }
     '/dashboard/portfolio/preview': {
       id: '/dashboard/portfolio/preview'
       path: '/preview'
@@ -499,11 +516,13 @@ declare module '@tanstack/react-router' {
 interface DashboardPortfolioRouteChildren {
   DashboardPortfolioPreviewRoute: typeof DashboardPortfolioPreviewRoute
   DashboardPortfolioSettingsRoute: typeof DashboardPortfolioSettingsRoute
+  DashboardPortfolioIndexRoute: typeof DashboardPortfolioIndexRoute
 }
 
 const DashboardPortfolioRouteChildren: DashboardPortfolioRouteChildren = {
   DashboardPortfolioPreviewRoute: DashboardPortfolioPreviewRoute,
   DashboardPortfolioSettingsRoute: DashboardPortfolioSettingsRoute,
+  DashboardPortfolioIndexRoute: DashboardPortfolioIndexRoute,
 }
 
 const DashboardPortfolioRouteWithChildren =
