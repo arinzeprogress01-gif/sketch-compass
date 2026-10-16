@@ -1,0 +1,2 @@
+export function isPortfolioEntryVisible(visibility: "Public" | "Private" | "Hidden") { return visibility === "Public"; }
+export function isEvidenceVisible(visibility: "Public" | "Private" | "Hidden", enabled: boolean) { return enabled && visibility === "Public"; }

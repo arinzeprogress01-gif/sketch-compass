@@ -65,10 +65,10 @@ function ForgotPasswordPage() {
 
   if (done) {
     return (
-      <AuthShell eyebrow="All set" title="Password updated." subtitle="Your new password is ready. Sign in to continue building your portfolio.">
+      <AuthShell eyebrow="All set" title="Reset preview complete." subtitle="No password has been changed. Account recovery is not connected yet.">
         <div className="flex items-center gap-4 rounded-2xl border border-border bg-card p-5 shadow-soft">
           <span className="grid size-11 place-items-center rounded-full bg-accent text-accent-foreground"><Check className="size-5 stroke-[3]" /></span>
-          <p className="text-sm">Your account <span className="font-semibold">{email}</span> is secured.</p>
+          <p className="text-sm">Your account <span className="font-semibold">{email}</span> remains unchanged.</p>
         </div>
         <Link to="/login" className="mt-6 inline-flex h-12 w-full items-center justify-center gap-2 rounded-full bg-primary text-sm font-semibold text-primary-foreground shadow-accent transition hover:-translate-y-0.5">Back to sign in <ArrowRight className="size-4" /></Link>
       </AuthShell>
@@ -76,7 +76,8 @@ function ForgotPasswordPage() {
   }
 
   return (
-    <AuthShell eyebrow={`Step ${step + 1} of 3`} title={copy[step]!.title} subtitle={copy[step]!.sub}>
+    <AuthShell eyebrow={`Step ${step + 1} of 3`} title={(copy[step] ?? copy[0])?.title ?? "Reset password"} subtitle={(copy[step] ?? copy[0])?.sub ?? ""}>
+      <p className="mb-5 text-xs text-muted-foreground">Preview only · No email is sent and no code is verified.</p>
       <ol className="mb-8 grid grid-cols-3 gap-2">
         {steps.map((s, i) => (
           <li key={s}>
@@ -91,7 +92,7 @@ function ForgotPasswordPage() {
         )}
         {step === 1 && (
           <div>
-            <p className="text-xs text-muted-foreground">Sent to <span className="font-semibold text-foreground">{email}</span></p>
+            <p className="text-xs text-muted-foreground">Preview email: <span className="font-semibold text-foreground">{email}</span></p>
             <div className="mt-3 flex gap-2 sm:gap-3">
               {code.map((d, i) => (
                 <input key={i} ref={(el) => { refs.current[i] = el; }} inputMode="numeric" autoComplete={i === 0 ? "one-time-code" : "off"} aria-label={`Digit ${i + 1}`} value={d}
